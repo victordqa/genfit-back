@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coach } from './typeOrm/entities/Coach';
+import { CoachesModule } from './coaches/coaches.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Coach } from './typeOrm/entities/Coach';
       entities: [Coach],
       synchronize: true,
     }),
+    CoachesModule,
   ],
   controllers: [],
   providers: [],
