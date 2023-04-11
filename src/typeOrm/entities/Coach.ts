@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Box } from './Box';
 
 @Entity()
 export class Coach {
@@ -25,4 +27,7 @@ export class Coach {
 
   @UpdateDateColumn()
   updated_at: Date; // Last updated date
+
+  @OneToMany(() => Box, (box) => box.coach)
+  boxes: Box[];
 }
