@@ -9,9 +9,6 @@ export class Box {
   @Column()
   name: String;
 
-  @Column()
-  password: string;
-
   @ManyToOne(() => Coach, (coach) => coach.boxes)
   coach: Coach;
 }

@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Box } from 'src/typeOrm/entities/Box';
 import { Coach } from 'src/typeOrm/entities/Coach';
-import { CreateCoachParams } from 'src/utils/types/types';
+import { CreateBoxParams, CreateCoachParams } from 'src/utils/types';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CoachesService {
   constructor(
     @InjectRepository(Coach) private coachRepository: Repository<Coach>,
+    @InjectRepository(Box) private boxRepository: Repository<Box>,
   ) {}
 
   createCoach(coachDetails: CreateCoachParams) {
@@ -18,5 +20,25 @@ export class CoachesService {
     });
 
     return this.coachRepository.save(newCoach);
+  }
+
+  async createBox(boxDetails: CreateBoxParams) {
+    const coachId = boxDetails.coachId;
+    console.log('++++++++++++++++++++++++');
+    console.log(boxDetails);
+
+    console.log('coachId ', coachId);
+    const coach = await this.coachRepository.findOneBy({ id: 87878 });
+    console.log(coach);
+    if (!coach)
+      throw new HttpException(
+        'User not found, can`t create Box',
+        HttpStatus.BAD_REQUEST,
+      );
+    const newBox = this.boxRepository.create({
+      ...boxDetails,
+    });
+
+    return this.boxRepository.save(newBox);
   }
 }

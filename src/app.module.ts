@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coach } from './typeOrm/entities/Coach';
 import { CoachesModule } from './coaches/coaches.module';
+import { Box } from './typeOrm/entities/Box';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { CoachesModule } from './coaches/coaches.module';
       username: 'postgres',
       password: 'postgres',
       database: 'genfit_dev',
-      entities: [Coach],
+      entities: [Coach, Box],
       synchronize: true,
     }),
     CoachesModule,
