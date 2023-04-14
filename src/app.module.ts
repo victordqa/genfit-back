@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coach } from './typeOrm/entities/Coach';
 import { CoachesModule } from './coaches/coaches.module';
 import { Box } from './typeOrm/entities/Box';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { Box } from './typeOrm/entities/Box';
       synchronize: true,
     }),
     CoachesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
