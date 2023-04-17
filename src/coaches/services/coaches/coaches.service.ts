@@ -41,4 +41,8 @@ export class CoachesService {
 
     return this.boxRepository.save(newBox);
   }
+
+  findCoachByEmail(email: string) {
+    return this.coachRepository.findOne({ where: { email } });
+  }
 }

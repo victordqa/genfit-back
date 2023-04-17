@@ -9,5 +9,6 @@ import { Box } from 'src/typeOrm/entities/Box';
   imports: [TypeOrmModule.forFeature([Coach, Box])],
   controllers: [CoachesController],
   providers: [CoachesService],
+  exports: [CoachesService],
 })
 export class CoachesModule {}
