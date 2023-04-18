@@ -18,7 +18,6 @@ import { CoachesModule } from 'src/coaches/coaches.module';
   controllers: [AuthController],
   providers: [
     { provide: 'AUTH_SERVICE', useClass: AuthService },
-    { provide: 'COACHES_SERVICE', useClass: CoachesService },
     LocalStrategy,
   ],
 })
