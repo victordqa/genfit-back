@@ -1,7 +1,7 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CoachesService } from 'src/coaches/services/coaches/coaches.service';
-import { compareHashes, hashPassword } from 'src/utils/hashing';
+import { compareHashes } from 'src/utils/hashing';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +26,6 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-
     return dbCoach;
   }
 
