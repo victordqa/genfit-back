@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Box } from 'src/typeOrm/entities/Box';
 import { Coach } from 'src/typeOrm/entities/Coach';
+import { hashPassword } from 'src/utils/hashing';
 import { CreateBoxParams, CreateCoachParams } from 'src/utils/types';
 import { Repository } from 'typeorm';
 
@@ -12,9 +13,11 @@ export class CoachesService {
     @InjectRepository(Box) private boxRepository: Repository<Box>,
   ) {}
 
-  createCoach(coachDetails: CreateCoachParams) {
+  async createCoach(coachDetails: CreateCoachParams) {
+    const hashedPassword = await hashPassword(coachDetails.password);
     const newCoach = this.coachRepository.create({
       ...coachDetails,
+      password: hashedPassword,
       created_at: new Date(),
       updated_at: new Date(),
     });

@@ -1,6 +1,7 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CoachesService } from 'src/coaches/services/coaches/coaches.service';
+import { compareHashes, hashPassword } from 'src/utils/hashing';
 
 @Injectable()
 export class AuthService {
@@ -11,10 +12,18 @@ export class AuthService {
   async validateCoach(email: string, password: string) {
     const dbCoach = await this.coachesService.findCoachByEmail(email);
 
-    if (!dbCoach || password !== dbCoach.password) {
+    if (!dbCoach) {
       throw new HttpException(
         'Invalid email or password',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const hashMatch = await compareHashes(password, dbCoach.password);
+    if (!hashMatch) {
+      throw new HttpException(
+        'Invalid email or password',
+        HttpStatus.UNAUTHORIZED,
       );
     }
 
