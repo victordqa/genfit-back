@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/utils/JwtAuthGuard';
 import { CreateBoxDto } from 'src/coaches/dtos/CreateBox.dto';
 import { CreateCoachDto } from 'src/coaches/dtos/CreateCoach.dto';
@@ -11,6 +19,7 @@ export class CoachesController {
   findCoaches() {}
 
   @Post('create')
+  @UsePipes(ValidationPipe)
   async createCoach(@Body() createCoachDto: CreateCoachDto) {
     const createdCoach = await this.coachesService.createCoach(createCoachDto);
     return { id: createdCoach.id };

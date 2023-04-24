@@ -14,9 +14,24 @@ export class CoachesService {
   ) {}
 
   async createCoach(coachDetails: CreateCoachParams) {
-    const hashedPassword = await hashPassword(coachDetails.password);
+    const { password, confirmPassword, email, name } = coachDetails;
+    const dbCoach = await this.findCoachByEmail(email);
+    if (dbCoach)
+      throw new HttpException(
+        'email already in use',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+
+    if (password !== confirmPassword)
+      throw new HttpException(
+        'Password and confirmation password must match',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const hashedPassword = await hashPassword(password);
     const newCoach = this.coachRepository.create({
-      ...coachDetails,
+      email,
+      name,
       password: hashedPassword,
       created_at: new Date(),
       updated_at: new Date(),
