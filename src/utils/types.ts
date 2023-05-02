@@ -9,3 +9,13 @@ export type CreateBoxParams = {
   name: string;
   coachId: number;
 };
+
+export type CreateCoachLogin = {
+  email: string;
+  id: string;
+};
+
+export type UserPayload = {
+  sub: number;
+  email: string;
+};

@@ -41,8 +41,7 @@ export class CoachesService {
   }
 
   async createBox(boxDetails: CreateBoxParams) {
-    const coachId = boxDetails.coachId;
-
+    const { coachId } = boxDetails;
     const coach = await this.coachRepository.findOneBy({ id: coachId });
     if (!coach)
       throw new HttpException(
@@ -51,6 +50,7 @@ export class CoachesService {
       );
     const newBox = this.boxRepository.create({
       ...boxDetails,
+      coach,
     });
 
     return this.boxRepository.save(newBox);

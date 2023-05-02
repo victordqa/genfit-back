@@ -2,6 +2,7 @@ import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CoachesService } from 'src/coaches/services/coaches/coaches.service';
 import { compareHashes } from 'src/utils/hashing';
+import { CreateCoachLogin } from 'src/utils/types';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,6 @@ export class AuthService {
   }
 
   async login(coach: any) {
-    // TODO: create user credentials type
     const payload = { email: coach.email, sub: coach.id };
     return {
       access_token: this.jwtService.sign(payload),
