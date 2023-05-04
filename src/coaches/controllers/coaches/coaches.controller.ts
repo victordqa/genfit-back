@@ -33,7 +33,6 @@ export class CoachesController {
     @Body() createBoxDto: CreateBoxDto,
     @User() userPayload: UserPayload,
   ) {
-    console.log(userPayload);
     const createdBox = await this.coachesService.createBox({
       name: createBoxDto.name,
       coachId: userPayload.sub,
