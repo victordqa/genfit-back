@@ -1,7 +1,7 @@
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
 
 export class CreateCoachDto {
-  @MinLength(6)
+  @MinLength(1)
   @MaxLength(255)
   name: string;
 
