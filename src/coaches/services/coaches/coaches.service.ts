@@ -15,7 +15,7 @@ export class CoachesService {
 
   async createCoach(coachDetails: CreateCoachParams) {
     const { password, confirmPassword, email, name } = coachDetails;
-    const dbCoach = await this.findCoachByEmail(email);
+    const dbCoach = await this.coachRepository.findOne({ where: { email } });
     if (dbCoach)
       throw new HttpException(
         'email already in use',
