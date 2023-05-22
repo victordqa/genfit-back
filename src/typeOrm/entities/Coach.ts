@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Box } from './Box';
+import { Exercise } from './Exercise';
 
 @Entity()
 export class Coach {
@@ -30,4 +31,7 @@ export class Coach {
 
   @OneToMany(() => Box, (box) => box.coach)
   boxes: Box[];
+
+  @OneToMany(() => Exercise, (exercise) => exercise.coach)
+  exercises: Exercise[];
 }
