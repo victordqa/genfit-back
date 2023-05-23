@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ExercisesService } from 'src/exercises/services/exercises/exercises.service';
 import { Box } from 'src/typeOrm/entities/Box';
 import { Coach } from 'src/typeOrm/entities/Coach';
 import { hashPassword } from 'src/utils/hashing';
@@ -11,6 +12,7 @@ export class CoachesService {
   constructor(
     @InjectRepository(Coach) private coachRepository: Repository<Coach>,
     @InjectRepository(Box) private boxRepository: Repository<Box>,
+    private exercisesService: ExercisesService,
   ) {}
 
   async createCoach(coachDetails: CreateCoachParams) {
@@ -37,7 +39,12 @@ export class CoachesService {
       updated_at: new Date(),
     });
 
-    return this.coachRepository.save(newCoach);
+    const savedCoach = this.coachRepository.save(newCoach);
+
+    // also save default seed exercises
+    this.exercisesService.seedExercises(newCoach);
+
+    return savedCoach;
   }
 
   async createBox(boxDetails: CreateBoxParams) {

@@ -1,5 +1,4 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Box } from './Box';
 import { Coach } from './Coach';
 
 @Entity()
@@ -10,8 +9,11 @@ export class Exercise {
   @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column('decimal', { precision: 6, scale: 1 })
   time_per_rep_s: number;
+
+  @Column()
+  complexity: number;
 
   @Column()
   loadable: boolean;
