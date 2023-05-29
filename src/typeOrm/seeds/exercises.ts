@@ -18,7 +18,7 @@ export const exercisesSeed = {
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
       { name: 'back thigh', impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'lower back', impact: 4 },
       { name: 'glutes', impact: 4 },
       { name: 'abs', impact: 1 },
@@ -32,7 +32,7 @@ export const exercisesSeed = {
     complexity: 2,
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 5 },
+      { name: 'coxa anterior', impact: 5 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 3 },
       { name: 'lower back', impact: 2 },
@@ -62,7 +62,7 @@ export const exercisesSeed = {
       // { name: "cardio", impact: 2 },
       { name: 'glutes', impact: 5 },
       { name: 'abs', impact: 3 },
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'back thigh', impact: 3 },
     ],
     timePerRepInS: 2.5,
@@ -114,7 +114,7 @@ export const exercisesSeed = {
     name: 'Overhead Squat',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 3 },
       { name: 'abs', impact: 2 },
@@ -128,7 +128,7 @@ export const exercisesSeed = {
     name: 'Snatch Pull',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 4 },
       { name: 'upper back', impact: 2 },
@@ -142,7 +142,7 @@ export const exercisesSeed = {
     name: 'Clean Pull',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 4 },
       { name: 'upper back', impact: 2 },
@@ -156,7 +156,7 @@ export const exercisesSeed = {
     name: 'Overhead Lunges',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 3 },
       { name: 'abs', impact: 2 },
@@ -170,7 +170,7 @@ export const exercisesSeed = {
     name: 'Thruster',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 4 },
       { name: 'triceps', impact: 3 },
@@ -186,7 +186,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'shoulder', impact: 4 },
       { name: 'upper back', impact: 3 },
@@ -243,7 +243,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 4 },
       { name: 'glutes', impact: 3 },
       { name: 'abs', impact: 1 },
@@ -258,7 +258,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 2 },
-      { name: 'front thigh', impact: 5 },
+      { name: 'coxa anterior', impact: 5 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 4 },
       { name: 'abs', impact: 1 },
@@ -275,7 +275,7 @@ export const exercisesSeed = {
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
       { name: 'back thigh', impact: 3 },
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'shoulder', impact: 3 },
       { name: 'triceps', impact: 1 },
       { name: 'upper back', impact: 2 },
@@ -291,7 +291,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 2 },
       { name: 'shoulder', impact: 3 },
       { name: 'triceps', impact: 1 },
@@ -309,7 +309,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'upper back', impact: 2 },
       { name: 'shoulder', impact: 2 },
@@ -327,7 +327,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'upper back', impact: 2 },
       { name: 'shoulder', impact: 3 },
@@ -345,7 +345,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'chest', impact: 4 },
       { name: 'shoulder', impact: 4 },
@@ -365,7 +365,7 @@ export const exercisesSeed = {
     complexity: 4,
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'chest', impact: 4 },
       { name: 'shoulder', impact: 4 },
@@ -385,7 +385,7 @@ export const exercisesSeed = {
     complexity: 4,
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 5 },
+      { name: 'coxa anterior', impact: 5 },
       { name: 'back thigh', impact: 3 },
       { name: 'abs', impact: 1 },
       { name: 'shoulder', impact: 4 },
@@ -507,7 +507,7 @@ export const exercisesSeed = {
     complexity: 1,
     musclesTargeted: [
       // { name: "cardio", impact: 2 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 3 },
       { name: 'abs', impact: 1 },
@@ -522,7 +522,7 @@ export const exercisesSeed = {
     musclesTargeted: [
       // { name: "cardio", impact: 2 },
 
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'glutes', impact: 3 },
       { name: 'abs', impact: 1 },
@@ -568,7 +568,7 @@ export const exercisesSeed = {
     musclesTargeted: [
       // { name: "cardio", impact: 2 },
 
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'glutes', impact: 4 },
       { name: 'abs', impact: 2 },
@@ -627,7 +627,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 2 },
     ],
@@ -641,7 +641,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 2 },
     ],
@@ -655,7 +655,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'glutes', impact: 2 },
       { name: 'back thigh', impact: 3 },
       { name: 'abs', impact: 1 },
@@ -672,7 +672,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'glutes', impact: 2 },
       { name: 'back thigh', impact: 3 },
       { name: 'abs', impact: 1 },
@@ -689,7 +689,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 3 },
       { name: 'chest', impact: 3 },
       { name: 'glutes', impact: 2 },
@@ -705,7 +705,7 @@ export const exercisesSeed = {
     complexity: 2,
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 2 },
       { name: 'calf', impact: 2 },
@@ -721,7 +721,7 @@ export const exercisesSeed = {
     complexity: 1,
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 3 },
       { name: 'glutes', impact: 2 },
       { name: 'calf', impact: 2 },
@@ -749,7 +749,7 @@ export const exercisesSeed = {
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
       { name: 'abs', impact: 5 },
-      { name: 'front thigh', impact: 1 },
+      { name: 'coxa anterior', impact: 1 },
     ],
     timePerRepInS: 1.5,
     blocks: ['Skill', 'WOD'],
@@ -760,7 +760,7 @@ export const exercisesSeed = {
     complexity: 4,
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'glutes', impact: 3 },
       { name: 'shoulder', impact: 2 },
@@ -776,7 +776,7 @@ export const exercisesSeed = {
     complexity: 4,
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 4 },
       { name: 'glutes', impact: 3 },
       { name: 'shoulder', impact: 2 },
@@ -806,7 +806,7 @@ export const exercisesSeed = {
     name: 'Push Jerk',
     complexity: 2,
     musclesTargeted: [
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'back thigh', impact: 2 },
       { name: 'shoulder', impact: 4 },
       { name: 'glutes', impact: 2 },
@@ -824,7 +824,7 @@ export const exercisesSeed = {
     name: 'Split Jerk',
     complexity: 3,
     musclesTargeted: [
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'back thigh', impact: 2 },
       { name: 'shoulder', impact: 4 },
       { name: 'triceps', impact: 2 },
@@ -841,7 +841,7 @@ export const exercisesSeed = {
     name: 'Snatch',
     complexity: 4,
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 2 },
       { name: 'upper back', impact: 2 },
       { name: 'shoulder', impact: 2 },
@@ -859,7 +859,7 @@ export const exercisesSeed = {
 
   //   musclesTargeted: [
   // //     { name: "cardio", impact: 4 },
-  //     { name: "front thigh", impact: 5 },
+  //     { name: "coxa anterior", impact: 5 },
   //     { name: "back thigh", impact: 3 },
   //     { name: "upper back", impact: 2 },
   //     { name: "shoulder", impact: 5 },
@@ -876,7 +876,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 2 },
       { name: 'upper back', impact: 2 },
       { name: 'shoulder', impact: 2 },
@@ -894,7 +894,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 3 },
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'back thigh', impact: 2 },
       { name: 'upper back', impact: 2 },
       { name: 'lower back', impact: 3 },
@@ -909,7 +909,7 @@ export const exercisesSeed = {
     complexity: 4,
 
     musclesTargeted: [
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'back thigh', impact: 2 },
       { name: 'upper back', impact: 2 },
       { name: 'shoulder', impact: 2 },
@@ -927,7 +927,7 @@ export const exercisesSeed = {
 
     musclesTargeted: [
       // { name: "cardio", impact: 4 },
-      { name: 'front thigh', impact: 1 },
+      { name: 'coxa anterior', impact: 1 },
       { name: 'glutes', impact: 1 },
       { name: 'abs', impact: 1 },
     ],
@@ -940,7 +940,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 4 },
+      { name: 'coxa anterior', impact: 4 },
       { name: 'lower back', impact: 2 },
       { name: 'chest', impact: 3 },
       { name: 'triceps', impact: 2 },
@@ -967,7 +967,7 @@ export const exercisesSeed = {
     complexity: 1,
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 2 },
+      { name: 'coxa anterior', impact: 2 },
       { name: 'back thigh', impact: 2 },
       { name: 'abs', impact: 2 },
     ],
@@ -994,7 +994,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'lower back', impact: 2 },
       { name: 'chest', impact: 2 },
       { name: 'triceps', impact: 1 },
@@ -1009,7 +1009,7 @@ export const exercisesSeed = {
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 5 },
-      { name: 'front thigh', impact: 3 },
+      { name: 'coxa anterior', impact: 3 },
       { name: 'back thigh', impact: 2 },
       { name: 'glutes', impact: 2 },
       { name: 'abs', impact: 2 },

@@ -2,11 +2,11 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Coach } from './Coach';
 
 @Entity()
-export class Exercise {
+export class Muscle {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column('decimal', { precision: 6, scale: 1 })

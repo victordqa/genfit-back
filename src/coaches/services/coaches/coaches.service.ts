@@ -1,11 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExercisesService } from 'src/exercises/services/exercises/exercises.service';
 import { Box } from 'src/typeOrm/entities/Box';
 import { Coach } from 'src/typeOrm/entities/Coach';
 import { hashPassword } from 'src/utils/hashing';
 import { CreateBoxParams, CreateCoachParams } from 'src/utils/types';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class CoachesService {
@@ -13,6 +18,7 @@ export class CoachesService {
     @InjectRepository(Coach) private coachRepository: Repository<Coach>,
     @InjectRepository(Box) private boxRepository: Repository<Box>,
     private exercisesService: ExercisesService,
+    private dataSource: DataSource,
   ) {}
 
   async createCoach(coachDetails: CreateCoachParams) {
@@ -39,12 +45,34 @@ export class CoachesService {
       updated_at: new Date(),
     });
 
-    const savedCoach = this.coachRepository.save(newCoach);
+    const queryRunner = this.dataSource.createQueryRunner();
 
-    // also save default seed exercises
-    this.exercisesService.seedExercises(newCoach);
+    //using transactions
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const savedCoach = await queryRunner.manager.save(newCoach);
+      const seeds = this.exercisesService.seedExercises(newCoach);
+      await queryRunner.manager.save(seeds);
 
-    return savedCoach;
+      await queryRunner.commitTransaction();
+      return savedCoach;
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      console.log(err);
+      await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException(
+        'Error on user creation and default exercise seeding',
+      );
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+
+    // const savedCoach = this.coachRepository.save(newCoach);
+
+    // // also save default seed exercises
+    // this.exercisesService.seedExercises(newCoach);
   }
 
   async createBox(boxDetails: CreateBoxParams) {

@@ -23,6 +23,7 @@ export class CoachesController {
   @UsePipes(ValidationPipe)
   async createCoach(@Body() createCoachDto: CreateCoachDto) {
     const createdCoach = await this.coachesService.createCoach(createCoachDto);
+    console.log(createdCoach);
     return { id: createdCoach.id };
   }
 

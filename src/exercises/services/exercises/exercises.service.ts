@@ -12,7 +12,7 @@ export class ExercisesService {
     @InjectRepository(Exercise)
     private exerciseRepository: Repository<Exercise>,
   ) {}
-  async seedExercises(coach: Coach) {
+  seedExercises(coach: Coach) {
     const seeds = Object.entries(exercisesSeed).map(
       ([_exercId, exerciseData]) => {
         const { name, timePerRepInS, complexity } = exerciseData;
@@ -28,6 +28,6 @@ export class ExercisesService {
       },
     );
     // implement many to many relations to add extra exs info
-    this.exerciseRepository.save(seeds);
+    return seeds;
   }
 }
