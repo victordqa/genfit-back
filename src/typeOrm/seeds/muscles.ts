@@ -1,19 +1,18 @@
 const calibrateCoef = 2;
 export const musclesRefs = [
-  { name: "front thigh", loadRefPerTrainning: calibrateCoef * 240 },
-  { name: "back thigh", loadRefPerTrainning: calibrateCoef * 200 },
-  { name: "chest", loadRefPerTrainning: calibrateCoef * 200 },
-  { name: "upper back", loadRefPerTrainning: calibrateCoef * 200 },
-  { name: "shoulder", loadRefPerTrainning: calibrateCoef * 130 },
-  { name: "calf", loadRefPerTrainning: calibrateCoef * 80 },
-  { name: "biceps", loadRefPerTrainning: calibrateCoef * 150 },
-  { name: "triceps", loadRefPerTrainning: calibrateCoef * 150 },
-  { name: "abs", loadRefPerTrainning: calibrateCoef * 150 },
-  { name: "lower back", loadRefPerTrainning: calibrateCoef * 80 },
-  { name: "glutes", loadRefPerTrainning: calibrateCoef * 140 },
+  { name: 'coxa anterior', loadRefPerTrainning: calibrateCoef * 240 },
+  { name: 'coxa posterior', loadRefPerTrainning: calibrateCoef * 200 },
+  { name: 'peito', loadRefPerTrainning: calibrateCoef * 200 },
+  { name: 'costas superior', loadRefPerTrainning: calibrateCoef * 200 },
+  { name: 'ombro', loadRefPerTrainning: calibrateCoef * 130 },
+  { name: 'panturrilha', loadRefPerTrainning: calibrateCoef * 80 },
+  { name: 'biceps', loadRefPerTrainning: calibrateCoef * 150 },
+  { name: 'triceps', loadRefPerTrainning: calibrateCoef * 150 },
+  { name: 'abdominal', loadRefPerTrainning: calibrateCoef * 150 },
+  { name: 'costas inferior', loadRefPerTrainning: calibrateCoef * 80 },
+  { name: 'gluteos', loadRefPerTrainning: calibrateCoef * 140 },
 ];
 
-// TODO
-//INSERT TRANSACTION ON USER CREATION
-//SEED DOMAIN TABLES ON MIGRATIONS
-//
+//CHANGE NAMES TO PT NAMES
+// POPULATE EXERICSE MUSCLE IMPACT ON USER CREATION
+// create indexes for fields used in filters such as coach id

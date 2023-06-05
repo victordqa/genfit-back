@@ -24,6 +24,7 @@ export class ExercisesService {
           is_cardio_specific: false,
         });
         seed.coach = coach;
+
         return seed;
       },
     );

@@ -58,21 +58,14 @@ export class CoachesService {
       await queryRunner.commitTransaction();
       return savedCoach;
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       console.log(err);
       await queryRunner.rollbackTransaction();
       throw new InternalServerErrorException(
         'Error on user creation and default exercise seeding',
       );
     } finally {
-      // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
-
-    // const savedCoach = this.coachRepository.save(newCoach);
-
-    // // also save default seed exercises
-    // this.exercisesService.seedExercises(newCoach);
   }
 
   async createBox(boxDetails: CreateBoxParams) {

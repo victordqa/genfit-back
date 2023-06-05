@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Coach } from './Coach';
+import { ExerciseMuscleImpact } from './ExerciseMuscleImpact';
 
 @Entity()
 export class Muscle {
@@ -9,18 +16,15 @@ export class Muscle {
   @Column({ unique: true })
   name: string;
 
-  @Column('decimal', { precision: 6, scale: 1 })
-  time_per_rep_s: number;
-
   @Column()
-  complexity: number;
+  ref_week_load: number;
 
-  @Column()
-  loadable: boolean;
-
-  @Column()
-  is_cardio_specific: boolean;
-
-  @ManyToOne(() => Coach, (coach) => coach.exercises)
+  @OneToMany(() => Coach, (coach) => coach.exercises)
   coach: Coach;
+
+  @OneToMany(
+    () => ExerciseMuscleImpact,
+    (exercise_muscle_impact) => exercise_muscle_impact.muscle,
+  )
+  exercise_muscle_impact: ExerciseMuscleImpact[];
 }
