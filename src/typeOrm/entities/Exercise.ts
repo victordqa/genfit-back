@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -28,6 +29,7 @@ export class Exercise {
   @Column()
   is_cardio_specific: boolean;
 
+  @Index()
   @ManyToOne(() => Coach, (coach) => coach.exercises)
   coach: Coach;
   @OneToMany(

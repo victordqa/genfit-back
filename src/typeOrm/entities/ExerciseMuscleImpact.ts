@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Muscle } from './Muscle';
 import { Exercise } from './Exercise';
 
@@ -16,6 +22,7 @@ export class ExerciseMuscleImpact {
   @Column()
   impact: number;
 
+  @Index()
   @ManyToOne(() => Exercise, (exercise) => exercise.exercise_muscle_impact)
   exercise: Exercise;
 
