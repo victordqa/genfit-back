@@ -52,9 +52,23 @@ export class CoachesService {
     await queryRunner.startTransaction();
     try {
       const savedCoach = await queryRunner.manager.save(newCoach);
-      const seeds = this.exercisesService.seedExercises(newCoach);
-      await queryRunner.manager.save(seeds);
+      const exerciseMuscleSeeds = await this.exercisesService.seedExercises(
+        newCoach,
+      );
+      const savedExercises = await queryRunner.manager.save(
+        exerciseMuscleSeeds.map((seeds) => seeds.exerciseSeed),
+      );
+      const muscleImpacts = exerciseMuscleSeeds.map(
+        (seed) => seed.musclesTargetWithIds,
+      );
 
+      const exerciseMuscleImpactsInstances =
+        this.exercisesService.seedExerciseMuscleImpact(
+          muscleImpacts,
+          savedExercises,
+        );
+
+      await queryRunner.manager.save(exerciseMuscleImpactsInstances);
       await queryRunner.commitTransaction();
       return savedCoach;
     } catch (err) {

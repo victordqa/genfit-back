@@ -3,9 +3,11 @@ import { ExercisesController } from './controllers/exercises/exercises.controlle
 import { ExercisesService } from './services/exercises/exercises.service';
 import { Exercise } from 'src/typeOrm/entities/Exercise';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExerciseMuscleImpact } from 'src/typeOrm/entities/ExerciseMuscleImpact';
+import { Muscle } from 'src/typeOrm/entities/Muscle';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Exercise])],
+  imports: [TypeOrmModule.forFeature([Exercise, ExerciseMuscleImpact, Muscle])],
   controllers: [ExercisesController],
   providers: [ExercisesService],
   exports: [ExercisesService],
