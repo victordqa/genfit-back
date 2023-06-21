@@ -85,11 +85,7 @@ export class CoachesService {
   async createBox(boxDetails: CreateBoxParams) {
     const { coachId } = boxDetails;
     const coach = await this.coachRepository.findOneBy({ id: coachId });
-    if (!coach)
-      throw new HttpException(
-        'User not found, can`t create Box',
-        HttpStatus.BAD_REQUEST,
-      );
+
     const newBox = this.boxRepository.create({
       ...boxDetails,
       coach,

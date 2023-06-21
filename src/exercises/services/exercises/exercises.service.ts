@@ -45,13 +45,9 @@ export class ExercisesService {
           };
         });
 
-        // get muscles
-        //get muscle id and impact  based on exercise exerciseSeed
-        // craete item on bridge table inserting
         return { exerciseSeed, musclesTargetWithIds };
       },
     );
-    // implement many to many relations to add extra exs info
     return seeds;
   }
 
