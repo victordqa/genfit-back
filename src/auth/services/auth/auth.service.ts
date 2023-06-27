@@ -1,8 +1,7 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CoachesService } from 'src/coaches/services/coaches/coaches.service';
-import { compareHashes } from 'src/utils/hashing';
-import { CreateCoachLogin } from 'src/utils/types';
+import { CoachesService } from '../../../coaches/services/coaches/coaches.service';
+import { compareHashes } from '../../../utils/hashing';
 
 @Injectable()
 export class AuthService {

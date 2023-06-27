@@ -10,9 +10,11 @@ import { ExercisesModule } from './exercises/exercises.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      // load: [dataSourceOptionsFactory],
     }),
-    TypeOrmModule.forRoot(dataSourceOptionsFactory()),
+    TypeOrmModule.forRoot({
+      ...dataSourceOptionsFactory(),
+      autoLoadEntities: true,
+    }),
     CoachesModule,
     AuthModule,
     ExercisesModule,

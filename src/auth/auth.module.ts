@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoachesModule } from '../coaches/coaches.module';
+import { Box } from '../typeOrm/entities/Box';
+import { Coach } from '../typeOrm/entities/Coach';
 import { AuthController } from './controllers/auth/auth.controller';
 import { AuthService } from './services/auth/auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Coach } from 'src/typeOrm/entities/Coach';
-import { Box } from 'src/typeOrm/entities/Box';
-import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './utils/LocalStrategy';
-import { CoachesModule } from 'src/coaches/coaches.module';
-import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './utils/JwtStrategy';
+import { LocalStrategy } from './utils/LocalStrategy';
 
 @Module({
   imports: [

@@ -8,11 +8,11 @@ import {
   ValidationPipe,
   Req,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/utils/JwtAuthGuard';
-import { CreateBoxDto } from 'src/coaches/dtos/CreateBox.dto';
-import { CreateCoachDto } from 'src/coaches/dtos/CreateCoach.dto';
-import { CoachesService } from 'src/coaches/services/coaches/coaches.service';
-import { UserPayload } from 'src/utils/types';
+import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
+import { CoachesService } from '../../services/coaches/coaches.service';
+import { UserPayload } from '../../../utils/types';
+import { CreateBoxDto } from '../../dtos/CreateBox.dto';
+import { CreateCoachDto } from '../../dtos/CreateCoach.dto';
 import { User } from './decorators/user.decorator';
 
 @Controller('coaches')

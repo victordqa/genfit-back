@@ -6,11 +6,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/utils/JwtAuthGuard';
-import { User } from 'src/coaches/controllers/coaches/decorators/user.decorator';
-import { CreateExerciseDto } from 'src/exercises/dtos/CreateExercise.dto';
-import { ExercisesService } from 'src/exercises/services/exercises/exercises.service';
-import { UserPayload } from 'src/utils/types';
+import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
+import { User } from '../../../coaches/controllers/coaches/decorators/user.decorator';
+import { UserPayload } from '../../../utils/types';
+import { CreateExerciseDto } from '../../dtos/CreateExercise.dto';
+import { ExercisesService } from '../../services/exercises/exercises.service';
 
 @Controller('exercises')
 export class ExercisesController {

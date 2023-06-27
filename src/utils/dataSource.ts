@@ -12,14 +12,14 @@ export const dataSourceOptionsFactory = (): DataSourceOptions => {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB,
-    entities: ['dist/typeOrm/entities/*.js'],
-    // synchronize: process.env.DB_SYNC === 'true',
-    migrations: ['dist/typeOrm/migrations/*.js'],
+    entities: ['dist/typeOrm/entities/*{js,ts}'],
+    migrations: ['dist/typeOrm/migrations/*{js,ts}'],
     migrationsTableName: 'migrations_typeorm',
     migrationsRun: false,
   };
 };
 
+//to be used on migrations auto file generation - see package.json scripts for migrations
 const dataSource = new DataSource(dataSourceOptionsFactory());
 
 export default dataSource;

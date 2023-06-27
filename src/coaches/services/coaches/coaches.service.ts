@@ -5,12 +5,12 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExercisesService } from 'src/exercises/services/exercises/exercises.service';
-import { Box } from 'src/typeOrm/entities/Box';
-import { Coach } from 'src/typeOrm/entities/Coach';
-import { hashPassword } from 'src/utils/hashing';
-import { CreateBoxParams, CreateCoachParams } from 'src/utils/types';
 import { DataSource, Repository } from 'typeorm';
+import { ExercisesService } from '../../../exercises/services/exercises/exercises.service';
+import { Box } from '../../../typeOrm/entities/Box';
+import { Coach } from '../../../typeOrm/entities/Coach';
+import { hashPassword } from '../../../utils/hashing';
+import { CreateCoachParams, CreateBoxParams } from '../../../utils/types';
 
 @Injectable()
 export class CoachesService {

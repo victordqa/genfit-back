@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Exercise } from 'src/typeOrm/entities/Exercise';
 import { Repository } from 'typeorm';
-import { exercisesSeed, ExerciseSeed } from 'src/typeOrm/seeds/exercises';
-import { Coach } from 'src/typeOrm/entities/Coach';
-import { Muscle } from 'src/typeOrm/entities/Muscle';
-import { ExerciseMuscleImpact } from 'src/typeOrm/entities/ExerciseMuscleImpact';
+import { Coach } from '../../../typeOrm/entities/Coach';
+import { Exercise } from '../../../typeOrm/entities/Exercise';
+import { ExerciseMuscleImpact } from '../../../typeOrm/entities/ExerciseMuscleImpact';
+import { Muscle } from '../../../typeOrm/entities/Muscle';
+import { ExerciseSeed, exercisesSeed } from '../../../typeOrm/seeds/exercises';
 
 @Injectable()
 export class ExercisesService {
