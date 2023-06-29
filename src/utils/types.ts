@@ -19,3 +19,8 @@ export type UserPayload = {
   sub: number;
   email: string;
 };
+
+export type SuggestTrainningParams = {
+  coachId: number;
+  quantity: number;
+};

@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { dataSourceOptionsFactory } from './utils/dataSource';
 import { ExercisesModule } from './exercises/exercises.module';
+import { TrainningsModule } from './trainnings/trainnings.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ExercisesModule } from './exercises/exercises.module';
     CoachesModule,
     AuthModule,
     ExercisesModule,
+    TrainningsModule,
   ],
   controllers: [],
   providers: [],
