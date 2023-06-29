@@ -13,6 +13,7 @@ describe('Coach Controller (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+    app.
   });
 
   describe('POST - coaches/create', () => {
