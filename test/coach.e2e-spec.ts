@@ -13,7 +13,6 @@ describe('Coach Controller (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    app.
   });
 
   describe('POST - coaches/create', () => {
@@ -27,6 +26,18 @@ describe('Coach Controller (e2e)', () => {
           confirmPassword: '123456',
         })
         .expect(201);
+    });
+
+    it('should fail to create a user with a taken email', () => {
+      return request(app.getHttpServer())
+        .post('/coaches/create')
+        .send({
+          name: 'Victor',
+          email: 'v@gmail.com',
+          password: '123456',
+          confirmPassword: '123456',
+        })
+        .expect(422);
     });
   });
   afterAll(async () => {
