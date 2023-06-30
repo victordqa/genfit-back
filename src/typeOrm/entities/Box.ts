@@ -11,4 +11,7 @@ export class Box {
 
   @ManyToOne(() => Coach, (coach) => coach.boxes)
   coach: Coach;
+
+  @Column()
+  coachId: number;
 }

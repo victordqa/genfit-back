@@ -94,6 +94,11 @@ export class CoachesService {
     return this.boxRepository.save(newBox);
   }
 
+  async listCoachBoxes(coachId: number) {
+    const boxes = await this.boxRepository.findBy({ coachId });
+    return boxes;
+  }
+
   findCoachByEmail(email: string) {
     return this.coachRepository.findOne({ where: { email } });
   }

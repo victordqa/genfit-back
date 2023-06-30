@@ -7,7 +7,7 @@ export class TrainningsService {
   //constructor(@InjectRepository())
   async suggestTrainning(suggestTrainningDetails: SuggestTrainningParams) {
     //get trainning history from db
-
+    // const history = this.trainningRepository
     return { msg: 'Hello!' };
   }
 }

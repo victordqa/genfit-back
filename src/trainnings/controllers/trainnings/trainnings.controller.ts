@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  ParseIntPipe,
   UseGuards,
   Query,
   ValidationPipe,
@@ -11,12 +10,13 @@ import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
 import { User } from '../../../coaches/controllers/coaches/decorators/user.decorator';
 import { UserPayload } from '../../../utils/types';
 import { SuggestTrainningDto } from '../../../trainning/dtos/SuggestTrainning.dto';
+import { IsBoxOwnerGuard } from '../../../trainning/guards/is-box-owner/is-box-owner.guard';
 
 @Controller('trainnings')
 export class TrainningsController {
   constructor(private trainningsService: TrainningsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
   @Get('suggest')
   suggestTrainning(
     @User() userPayload: UserPayload,

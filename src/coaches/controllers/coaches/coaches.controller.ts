@@ -39,4 +39,11 @@ export class CoachesController {
     });
     return { id: createdBox.id };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('boxes')
+  async listBoxes(@User() userPayload: UserPayload) {
+    const boxes = await this.coachesService.listCoachBoxes(userPayload.sub);
+    return { boxes };
+  }
 }
