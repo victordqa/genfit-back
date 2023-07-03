@@ -12,7 +12,3 @@ export const musclesRefs = [
   { name: 'costas inferior', loadRefPerTrainning: calibrateCoef * 80 },
   { name: 'gluteos', loadRefPerTrainning: calibrateCoef * 140 },
 ];
-
-//CHANGE NAMES TO PT NAMES
-// POPULATE EXERICSE MUSCLE IMPACT ON USER CREATION
-// create indexes for fields used in filters such as coach id

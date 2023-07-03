@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Box } from './Box';
-import { Exercise } from './Exercise';
+
+import { TrainningBlock } from './TrainningBlock';
 
 @Entity()
 export class Block {
@@ -19,12 +19,10 @@ export class Block {
 
   @Column('integer')
   min_duration_in_m: number;
+
   @Column('integer')
   max_duration_in_m: number;
 
-  @OneToMany(() => Box, (box) => box.coach)
-  boxes: Box[];
-
-  @OneToMany(() => Exercise, (exercise) => exercise.coach)
-  exercises: Exercise[];
+  @OneToMany(() => TrainningBlock, (trainningBlock) => trainningBlock.block)
+  trainningBlocks: TrainningBlock[];
 }

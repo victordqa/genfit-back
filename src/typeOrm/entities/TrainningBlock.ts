@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Trainning } from './Trainning';
 import { TrainningBlockExercise } from './TrainningBlockExercise';
+import { Block } from './Block';
 
 @Entity()
 export class TrainningBlock {
@@ -24,4 +25,7 @@ export class TrainningBlock {
     (trainningBlockExercise) => trainningBlockExercise.trainningBlock,
   )
   trainningBlockExercises: TrainningBlockExercise[];
+
+  @ManyToOne(() => Block, (block) => block.trainningBlocks)
+  block: Block;
 }

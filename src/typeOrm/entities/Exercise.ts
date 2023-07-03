@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   Index,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -9,6 +11,7 @@ import {
 import { Coach } from './Coach';
 import { ExerciseMuscleImpact } from './ExerciseMuscleImpact';
 import { TrainningBlockExercise } from './TrainningBlockExercise';
+import { Block } from './Block';
 
 @Entity()
 export class Exercise {
@@ -44,4 +47,8 @@ export class Exercise {
     (trainningBlockExercise) => trainningBlockExercise.exercise,
   )
   trainningBlockExercises: TrainningBlockExercise[];
+
+  @ManyToMany(() => Block)
+  @JoinTable()
+  blocks: Block[];
 }
