@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Coach } from './Coach';
+import { Trainning } from './Trainning';
 
 @Entity()
 export class Box {
@@ -11,6 +18,8 @@ export class Box {
 
   @ManyToOne(() => Coach, (coach) => coach.boxes)
   coach: Coach;
+  @OneToMany(() => Trainning, (trainning) => trainning.box)
+  trainnings: Trainning[];
 
   @Column()
   coachId: number;

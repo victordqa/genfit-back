@@ -21,6 +21,6 @@ export type UserPayload = {
 };
 
 export type SuggestTrainningParams = {
-  coachId: number;
+  boxId: number;
   quantity: number;
 };

@@ -19,7 +19,6 @@ export class TrainningsController {
   @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
   @Get('suggest')
   suggestTrainning(
-    @User() userPayload: UserPayload,
     @Query(
       new ValidationPipe({
         transform: true,
@@ -30,7 +29,7 @@ export class TrainningsController {
     query: SuggestTrainningDto,
   ) {
     return this.trainningsService.suggestTrainning({
-      coachId: userPayload.sub,
+      boxId: query.boxId,
       quantity: query.quantity,
     });
   }
