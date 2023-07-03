@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Trainning } from './Trainning';
+import { TrainningBlockExercise } from './TrainningBlockExercise';
 
 @Entity()
 export class TrainningBlock {
@@ -11,4 +18,10 @@ export class TrainningBlock {
 
   @ManyToOne(() => Trainning, (trainning) => trainning.trainningBlocks)
   trainning: Trainning;
+
+  @OneToMany(
+    () => TrainningBlockExercise,
+    (trainningBlockExercise) => trainningBlockExercise.trainningBlock,
+  )
+  trainningBlockExercises: TrainningBlockExercise[];
 }

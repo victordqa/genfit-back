@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Coach } from './Coach';
 import { ExerciseMuscleImpact } from './ExerciseMuscleImpact';
+import { TrainningBlockExercise } from './TrainningBlockExercise';
 
 @Entity()
 export class Exercise {
@@ -37,4 +38,10 @@ export class Exercise {
     (exercise_muscle_impact) => exercise_muscle_impact.exercise,
   )
   exercise_muscle_impact: ExerciseMuscleImpact[];
+
+  @OneToMany(
+    () => TrainningBlockExercise,
+    (trainningBlockExercise) => trainningBlockExercise.exercise,
+  )
+  trainningBlockExercises: TrainningBlockExercise[];
 }
