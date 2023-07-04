@@ -55,9 +55,12 @@ export class CoachesService {
       const exerciseMuscleSeeds = await this.exercisesService.seedExercises(
         newCoach,
       );
-      const savedExercises = await queryRunner.manager.save(
-        exerciseMuscleSeeds.map((seeds) => seeds.exerciseSeed),
+
+      const exerciseSeeds = exerciseMuscleSeeds.map(
+        (seeds) => seeds.exerciseSeed,
       );
+
+      const savedExercises = await queryRunner.manager.save(exerciseSeeds);
       const muscleImpacts = exerciseMuscleSeeds.map(
         (seed) => seed.musclesTargetWithIds,
       );
