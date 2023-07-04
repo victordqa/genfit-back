@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -24,4 +25,7 @@ export class Trainning {
   trainningBlocks: TrainningBlock[];
   @ManyToOne(() => Box, (box) => box.trainnings)
   box: Box;
+
+  @Column()
+  boxId: number;
 }

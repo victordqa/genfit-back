@@ -24,3 +24,8 @@ export type SuggestTrainningParams = {
   boxId: number;
   quantity: number;
 };
+
+export type CreateTrainningParams = {
+  boxId: number;
+  quantity: number;
+};

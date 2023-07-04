@@ -4,6 +4,9 @@ import {
   UseGuards,
   Query,
   ValidationPipe,
+  UsePipes,
+  Post,
+  Body,
 } from '@nestjs/common';
 import { TrainningsService } from '../../services/trainnings/trainnings.service';
 import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
@@ -11,6 +14,7 @@ import { User } from '../../../coaches/controllers/coaches/decorators/user.decor
 import { UserPayload } from '../../../utils/types';
 import { SuggestTrainningDto } from '../../../trainning/dtos/SuggestTrainning.dto';
 import { IsBoxOwnerGuard } from '../../../trainning/guards/is-box-owner/is-box-owner.guard';
+import { CreateTrainningDto } from '../../dtos/CreateTrainning.dto';
 
 @Controller('trainnings')
 export class TrainningsController {
@@ -32,5 +36,19 @@ export class TrainningsController {
       boxId: query.boxId,
       quantity: query.quantity,
     });
+  }
+
+  @UsePipes(ValidationPipe)
+  @UseGuards(JwtAuthGuard)
+  @Post('create')
+  async createTrainning(
+    @Body() createTrainningDto: CreateTrainningDto,
+    @User() userPayload: UserPayload,
+  ) {
+    // const createdTrainning = await this.trainningsService.createTrainning({
+    //   name: createBoxDto.name,
+    //   coachId: userPayload.sub,
+    // });
+    return { msg: 'ok' };
   }
 }
