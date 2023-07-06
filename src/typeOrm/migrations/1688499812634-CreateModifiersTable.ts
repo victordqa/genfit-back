@@ -65,7 +65,6 @@ export class CreateModifiersTable1688499812634 implements MigrationInterface {
         return modifierInstance;
       },
     );
-    console.log(modifiersInstances);
     await queryRunner.manager.save(modifiersInstances);
   }
 

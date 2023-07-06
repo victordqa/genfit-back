@@ -49,6 +49,7 @@ export class TrainningsController {
     //   name: createBoxDto.name,
     //   coachId: userPayload.sub,
     // });
+    this.trainningsService.createTrainning();
     return { msg: 'ok' };
   }
 }

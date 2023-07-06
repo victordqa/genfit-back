@@ -20,6 +20,9 @@ export class TrainningBlock {
   @ManyToOne(() => Trainning, (trainning) => trainning.trainningBlocks)
   trainning: Trainning;
 
+  @Column()
+  blockId: number;
+
   @OneToMany(
     () => TrainningBlockExercise,
     (trainningBlockExercise) => trainningBlockExercise.trainningBlock,

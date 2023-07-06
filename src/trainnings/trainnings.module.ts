@@ -5,9 +5,19 @@ import { CoachesModule } from '../coaches/coaches.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Box } from '../typeOrm/entities/Box';
 import { Trainning } from '../typeOrm/entities/Trainning';
+import { TrainningBlock } from '../typeOrm/entities/TrainningBlock';
+import { TrainningBlockExercise } from '../typeOrm/entities/TrainningBlockExercise';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Box, Trainning]), CoachesModule],
+  imports: [
+    TypeOrmModule.forFeature([
+      Box,
+      Trainning,
+      TrainningBlock,
+      TrainningBlockExercise,
+    ]),
+    CoachesModule,
+  ],
   controllers: [TrainningsController],
   providers: [TrainningsService],
 })
