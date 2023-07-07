@@ -8,6 +8,7 @@ import {
 import { Trainning } from './Trainning';
 import { TrainningBlockExercise } from './TrainningBlockExercise';
 import { Block } from './Block';
+import { Modifier } from './Modifier';
 
 @Entity()
 export class TrainningBlock {
@@ -23,6 +24,9 @@ export class TrainningBlock {
   @Column()
   blockId: number;
 
+  @Column()
+  modifierId: number;
+
   @OneToMany(
     () => TrainningBlockExercise,
     (trainningBlockExercise) => trainningBlockExercise.trainningBlock,
@@ -31,4 +35,7 @@ export class TrainningBlock {
 
   @ManyToOne(() => Block, (block) => block.trainningBlocks)
   block: Block;
+
+  @ManyToOne(() => Modifier, (modifier) => modifier.trainningBlocks)
+  modifier: Modifier;
 }

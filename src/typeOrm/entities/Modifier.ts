@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { Block } from './Block';
+import { TrainningBlock } from './TrainningBlock';
 
 @Entity()
 export class Modifier {
@@ -28,4 +29,7 @@ export class Modifier {
   @ManyToMany(() => Block)
   @JoinTable()
   blocks: Block[];
+
+  @OneToMany(() => TrainningBlock, (trainningBlock) => trainningBlock.modifier)
+  trainningBlocks: TrainningBlock[];
 }
