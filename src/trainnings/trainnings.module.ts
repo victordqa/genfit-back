@@ -7,6 +7,7 @@ import { Box } from '../typeOrm/entities/Box';
 import { Trainning } from '../typeOrm/entities/Trainning';
 import { TrainningBlock } from '../typeOrm/entities/TrainningBlock';
 import { TrainningBlockExercise } from '../typeOrm/entities/TrainningBlockExercise';
+import { ExercisesModule } from '../exercises/exercises.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TrainningBlockExercise } from '../typeOrm/entities/TrainningBlockExerci
       TrainningBlockExercise,
     ]),
     CoachesModule,
+    ExercisesModule,
   ],
   controllers: [TrainningsController],
   providers: [TrainningsService],

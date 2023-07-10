@@ -31,10 +31,12 @@ export class TrainningsController {
       }),
     )
     query: SuggestTrainningDto,
+    @User() userPayload: UserPayload,
   ) {
     return this.trainningsService.suggestTrainning({
       boxId: query.boxId,
       quantity: query.quantity,
+      coachId: userPayload.sub,
     });
   }
 

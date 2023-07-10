@@ -23,9 +23,37 @@ export type UserPayload = {
 export type SuggestTrainningParams = {
   boxId: number;
   quantity: number;
+  coachId;
 };
 
 export type CreateTrainningParams = {
   boxId: number;
   quantity: number;
+};
+
+export type TrainningExerciseData = {
+  exercises: {
+    id: number;
+    reps: number;
+    load: number;
+  }[];
+  durationInM: number;
+  modifier: string;
+};
+export type TrainningForCalc = {
+  warmUp: TrainningExerciseData;
+  skill: TrainningExerciseData;
+  wod: TrainningExerciseData;
+};
+
+export type ExerciseForCalc = {
+  id: number;
+  name: string;
+  complexity: number;
+  musclesTargeted: {
+    name: string;
+    impact: number;
+  }[];
+  timePerRepInS: number;
+  blocks: string[];
 };

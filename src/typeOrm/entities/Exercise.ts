@@ -31,6 +31,9 @@ export class Exercise {
   loadable: boolean;
 
   @Column()
+  coachId: number;
+
+  @Column()
   is_cardio_specific: boolean;
 
   @Index()

@@ -1,0 +1,490 @@
+Box {
+  id: 1,
+  name: 'adfjonf',
+  coachId: 1,
+  trainnings: [
+    Trainning {
+      id: 1,
+      created_at: 2023-07-07T18:12:16.827Z,
+      updated_at: 2023-07-07T18:12:16.827Z,
+      boxId: 1,
+      trainningBlocks: [
+        TrainningBlock {
+          id: 1,
+          duration_in_m: 5,
+          blockId: 1,
+          modifierId: 4,
+          modifier: Modifier {
+            id: 4,
+            name: '40" on 20" off',
+            min_candidates: 1,
+            max_candidates: 3
+          },
+          trainningBlockExercises: [
+            TrainningBlockExercise {
+              id: 1,
+              exerciseId: 11,
+              trainningBlockId: 1,
+              reps: 10,
+              load: 0.5,
+              exercise: Exercise {
+                id: 11,
+                name: 'Overhead Lunges',
+                time_per_rep_s: '4.0',
+                complexity: 3,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 41,
+                    exerciseId: 11,
+                    muscleId: 1,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 1,
+                      name: 'coxa anterior',
+                      ref_week_load: 480
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 42,
+                    exerciseId: 11,
+                    muscleId: 2,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 2,
+                      name: 'coxa posterior',
+                      ref_week_load: 400
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 43,
+                    exerciseId: 11,
+                    muscleId: 5,
+                    impact: 3,
+                    muscle: Muscle { id: 5, name: 'ombro', ref_week_load: 260 }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 44,
+                    exerciseId: 11,
+                    muscleId: 9,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          block: Block {
+            id: 1,
+            name: 'WOD',
+            min_duration_in_m: 10,
+            max_duration_in_m: 16
+          }
+        },
+        TrainningBlock {
+          id: 2,
+          duration_in_m: 6,
+          blockId: 3,
+          modifierId: 7,
+          modifier: Modifier {
+            id: 7,
+            name: 'Chipper',
+            min_candidates: 4,
+            max_candidates: 6
+          },
+          trainningBlockExercises: [
+            TrainningBlockExercise {
+              id: 2,
+              exerciseId: 28,
+              trainningBlockId: 2,
+              reps: 31,
+              load: 0.3,
+              exercise: Exercise {
+                id: 28,
+                name: 'Strict Ring Dip',
+                time_per_rep_s: '2.5',
+                complexity: 2,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 137,
+                    exerciseId: 28,
+                    muscleId: 3,
+                    impact: 4,
+                    muscle: Muscle { id: 3, name: 'peito', ref_week_load: 400 }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 138,
+                    exerciseId: 28,
+                    muscleId: 8,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 8,
+                      name: 'triceps',
+                      ref_week_load: 300
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 139,
+                    exerciseId: 28,
+                    muscleId: 4,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 4,
+                      name: 'costas superior',
+                      ref_week_load: 400
+                    }
+                  }
+                ]
+              }
+            },
+            TrainningBlockExercise {
+              id: 3,
+              exerciseId: 3,
+              trainningBlockId: 2,
+              reps: 39,
+              load: 0.3,
+              exercise: Exercise {
+                id: 3,
+                name: 'Back Squat',
+                time_per_rep_s: '3.0',
+                complexity: 2,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 11,
+                    exerciseId: 3,
+                    muscleId: 2,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 2,
+                      name: 'coxa posterior',
+                      ref_week_load: 400
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 12,
+                    exerciseId: 3,
+                    muscleId: 11,
+                    impact: 3,
+                    muscle: Muscle {
+                      id: 11,
+                      name: 'gluteos',
+                      ref_week_load: 280
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 13,
+                    exerciseId: 3,
+                    muscleId: 9,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  }
+                ]
+              }
+            },
+            TrainningBlockExercise {
+              id: 4,
+              exerciseId: 48,
+              trainningBlockId: 2,
+              reps: 32,
+              load: 0.3,
+              exercise: Exercise {
+                id: 48,
+                name: 'Sit Up',
+                time_per_rep_s: '2.0',
+                complexity: 1,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 222,
+                    exerciseId: 48,
+                    muscleId: 9,
+                    impact: 5,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  }
+                ]
+              }
+            },
+            TrainningBlockExercise {
+              id: 5,
+              exerciseId: 1,
+              trainningBlockId: 2,
+              reps: 30,
+              load: 0.3,
+              exercise: Exercise {
+                id: 1,
+                name: 'Deadlift',
+                time_per_rep_s: '3.0',
+                complexity: 3,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 1,
+                    exerciseId: 1,
+                    muscleId: 2,
+                    impact: 3,
+                    muscle: Muscle {
+                      id: 2,
+                      name: 'coxa posterior',
+                      ref_week_load: 400
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 2,
+                    exerciseId: 1,
+                    muscleId: 1,
+                    impact: 3,
+                    muscle: Muscle {
+                      id: 1,
+                      name: 'coxa anterior',
+                      ref_week_load: 480
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 3,
+                    exerciseId: 1,
+                    muscleId: 10,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 10,
+                      name: 'costas inferior',
+                      ref_week_load: 160
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 4,
+                    exerciseId: 1,
+                    muscleId: 11,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 11,
+                      name: 'gluteos',
+                      ref_week_load: 280
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 5,
+                    exerciseId: 1,
+                    muscleId: 9,
+                    impact: 1,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          block: Block {
+            id: 3,
+            name: 'Warm Up',
+            min_duration_in_m: 4,
+            max_duration_in_m: 10
+          }
+        },
+        TrainningBlock {
+          id: 3,
+          duration_in_m: 9,
+          blockId: 2,
+          modifierId: 6,
+          modifier: Modifier {
+            id: 6,
+            name: 'Strength',
+            min_candidates: 1,
+            max_candidates: 2
+          },
+          trainningBlockExercises: [
+            TrainningBlockExercise {
+              id: 6,
+              exerciseId: 1,
+              trainningBlockId: 3,
+              reps: 28,
+              load: 0.8,
+              exercise: Exercise {
+                id: 1,
+                name: 'Deadlift',
+                time_per_rep_s: '3.0',
+                complexity: 3,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 1,
+                    exerciseId: 1,
+                    muscleId: 2,
+                    impact: 3,
+                    muscle: Muscle {
+                      id: 2,
+                      name: 'coxa posterior',
+                      ref_week_load: 400
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 2,
+                    exerciseId: 1,
+                    muscleId: 1,
+                    impact: 3,
+                    muscle: Muscle {
+                      id: 1,
+                      name: 'coxa anterior',
+                      ref_week_load: 480
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 3,
+                    exerciseId: 1,
+                    muscleId: 10,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 10,
+                      name: 'costas inferior',
+                      ref_week_load: 160
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 4,
+                    exerciseId: 1,
+                    muscleId: 11,
+                    impact: 4,
+                    muscle: Muscle {
+                      id: 11,
+                      name: 'gluteos',
+                      ref_week_load: 280
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 5,
+                    exerciseId: 1,
+                    muscleId: 9,
+                    impact: 1,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  }
+                ]
+              }
+            },
+            TrainningBlockExercise {
+              id: 7,
+              exerciseId: 54,
+              trainningBlockId: 3,
+              reps: 26,
+              load: 0.8,
+              exercise: Exercise {
+                id: 54,
+                name: 'Split Jerk',
+                time_per_rep_s: '2.5',
+                complexity: 3,
+                loadable: true,
+                is_cardio_specific: false,
+                exercise_muscle_impact: [
+                  ExerciseMuscleImpact {
+                    id: 250,
+                    exerciseId: 54,
+                    muscleId: 1,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 1,
+                      name: 'coxa anterior',
+                      ref_week_load: 480
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 251,
+                    exerciseId: 54,
+                    muscleId: 2,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 2,
+                      name: 'coxa posterior',
+                      ref_week_load: 400
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 252,
+                    exerciseId: 54,
+                    muscleId: 5,
+                    impact: 4,
+                    muscle: Muscle { id: 5, name: 'ombro', ref_week_load: 260 }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 253,
+                    exerciseId: 54,
+                    muscleId: 8,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 8,
+                      name: 'triceps',
+                      ref_week_load: 300
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 254,
+                    exerciseId: 54,
+                    muscleId: 9,
+                    impact: 1,
+                    muscle: Muscle {
+                      id: 9,
+                      name: 'abdominal',
+                      ref_week_load: 300
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 255,
+                    exerciseId: 54,
+                    muscleId: 11,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 11,
+                      name: 'gluteos',
+                      ref_week_load: 280
+                    }
+                  },
+                  ExerciseMuscleImpact {
+                    id: 256,
+                    exerciseId: 54,
+                    muscleId: 10,
+                    impact: 2,
+                    muscle: Muscle {
+                      id: 10,
+                      name: 'costas inferior',
+                      ref_week_load: 160
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          block: Block {
+            id: 2,
+            name: 'Skill',
+            min_duration_in_m: 8,
+            max_duration_in_m: 13
+          }
+        }
+      ]
+    }
+  ]
+}

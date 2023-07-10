@@ -96,4 +96,11 @@ export class ExercisesService {
   async listBocks() {
     return await this.blockRepository.find();
   }
+
+  async listExercises(coachId: number) {
+    return await this.exerciseRepository.find({
+      where: { coachId },
+      relations: { exercise_muscle_impact: { muscle: true }, blocks: true },
+    });
+  }
 }
