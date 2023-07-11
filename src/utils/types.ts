@@ -57,3 +57,13 @@ export type ExerciseForCalc = {
   timePerRepInS: number;
   blocks: string[];
 };
+
+export type AccumulatedLoads = {
+  [index: string]: number;
+};
+
+export type MusclesRefs = { name: string; loadRefPerTrainning: number }[];
+export type MaxExParams = { name: string; maxImpact: number }[];
+export type ParsedModifiers = {
+  [key: string]: { maxCandidates: number; minCandidates: number };
+};

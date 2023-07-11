@@ -7,6 +7,7 @@ import { ExerciseMuscleImpact } from '../../../typeOrm/entities/ExerciseMuscleIm
 import { Muscle } from '../../../typeOrm/entities/Muscle';
 import { ExerciseSeed, exercisesSeed } from '../../../typeOrm/seeds/exercises';
 import { Block } from '../../../typeOrm/entities/Block';
+import { Modifier } from '../../../typeOrm/entities/Modifier';
 
 @Injectable()
 export class ExercisesService {
@@ -20,10 +21,12 @@ export class ExercisesService {
     private muscleRepository: Repository<Muscle>,
     @InjectRepository(ExerciseMuscleImpact)
     private exerciseMuscleImpact: Repository<ExerciseMuscleImpact>,
+    @InjectRepository(Modifier)
+    private modifierRepository: Repository<Modifier>,
   ) {}
   async seedExercises(coach: Coach) {
     const dbMuscles = await this.muscleRepository.find();
-    const blocks = await this.listBocks();
+    const blocks = await this.listBlocks();
     const seeds = Object.entries(this.exercisesSeed).map(
       ([_exercId, exerciseData]) => {
         const { name, timePerRepInS, complexity, musclesTargeted } =
@@ -93,8 +96,19 @@ export class ExercisesService {
       .map((ex) => this.exerciseMuscleImpact.create(ex));
   }
 
-  async listBocks() {
+  async listBlocks() {
     return await this.blockRepository.find();
+  }
+  async listBlocksAndPreloads() {
+    return await this.blockRepository.find({ relations: { modifiers: true } });
+  }
+
+  async listMuscleRefs() {
+    return await this.muscleRepository.find();
+  }
+
+  async listModifiers() {
+    return await this.modifierRepository.find();
   }
 
   async listExercises(coachId: number) {

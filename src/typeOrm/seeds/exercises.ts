@@ -435,7 +435,7 @@ export const exercisesSeed = {
   },
   29: {
     id: 29,
-    name: 'peito to Bar',
+    name: 'Chest to Bar',
     complexity: 3,
     musclesTargeted: [
       // { name: "cardio", impact: 2 },

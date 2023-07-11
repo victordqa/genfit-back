@@ -26,7 +26,7 @@ export class Modifier {
   @Column('integer')
   max_candidates: number;
 
-  @ManyToMany(() => Block)
+  @ManyToMany(() => Block, (block) => block.modifiers)
   @JoinTable()
   blocks: Block[];
 

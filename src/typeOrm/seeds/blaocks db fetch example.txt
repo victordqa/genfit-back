@@ -1,0 +1,116 @@
+[
+  Block {
+    id: 1,
+    name: 'WOD',
+    min_duration_in_m: 10,
+    max_duration_in_m: 16,
+    modifiers: [
+      Modifier {
+        id: 1,
+        name: 'EMOM',
+        min_candidates: 2,
+        max_candidates: 3
+      },
+      Modifier {
+        id: 2,
+        name: 'AMRAP',
+        min_candidates: 2,
+        max_candidates: 6
+      },
+      Modifier {
+        id: 3,
+        name: 'TABATA',
+        min_candidates: 2,
+        max_candidates: 6
+      },
+      Modifier {
+        id: 4,
+        name: '40" on 20" off',
+        min_candidates: 1,
+        max_candidates: 3
+      },
+      Modifier {
+        id: 5,
+        name: 'n rounds FT',
+        min_candidates: 2,
+        max_candidates: 4
+      },
+      Modifier {
+        id: 7,
+        name: 'Chipper',
+        min_candidates: 4,
+        max_candidates: 6
+      }
+    ]
+  },
+  Block {
+    id: 3,
+    name: 'Warm Up',
+    min_duration_in_m: 4,
+    max_duration_in_m: 10,
+    modifiers: [
+      Modifier {
+        id: 1,
+        name: 'EMOM',
+        min_candidates: 2,
+        max_candidates: 3
+      },
+      Modifier {
+        id: 2,
+        name: 'AMRAP',
+        min_candidates: 2,
+        max_candidates: 6
+      },
+      Modifier {
+        id: 3,
+        name: 'TABATA',
+        min_candidates: 2,
+        max_candidates: 6
+      },
+      Modifier {
+        id: 4,
+        name: '40" on 20" off',
+        min_candidates: 1,
+        max_candidates: 3
+      },
+      Modifier {
+        id: 5,
+        name: 'n rounds FT',
+        min_candidates: 2,
+        max_candidates: 4
+      },
+      Modifier {
+        id: 7,
+        name: 'Chipper',
+        min_candidates: 4,
+        max_candidates: 6
+      }
+    ]
+  },
+  Block {
+    id: 2,
+    name: 'Skill',
+    min_duration_in_m: 8,
+    max_duration_in_m: 13,
+    modifiers: [
+      Modifier {
+        id: 6,
+        name: 'Strength',
+        min_candidates: 1,
+        max_candidates: 2
+      },
+      Modifier {
+        id: 8,
+        name: 'Core Day',
+        min_candidates: 3,
+        max_candidates: 6
+      },
+      Modifier {
+        id: 9,
+        name: 'Technique',
+        min_candidates: 1,
+        max_candidates: 2
+      }
+    ]
+  }
+]
