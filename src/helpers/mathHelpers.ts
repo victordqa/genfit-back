@@ -20,6 +20,11 @@ export const indexArray = <Type>(arr: Type[], indexKey: string) => {
   }, {} as { [key: string]: Type });
 };
 
+export const generateRandomInteger = (max: number, min: number) => {
+  const diff = max - min;
+  return min + Math.round(Math.random() * diff);
+};
+
 export const convertExsObjToArray = (obj: { [index: string | number]: any }) =>
   Object.entries(obj).map((entry) => entry[1]);
 

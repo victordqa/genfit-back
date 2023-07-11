@@ -67,3 +67,12 @@ export type MaxExParams = { name: string; maxImpact: number }[];
 export type ParsedModifiers = {
   [key: string]: { maxCandidates: number; minCandidates: number };
 };
+
+export type IndexedBlocks = {
+  [key: string]: {
+    name: string;
+    minDurationInM: number;
+    maxDurationInM: number;
+    possibleMods: string[];
+  };
+};

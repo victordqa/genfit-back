@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   AccumulatedLoads,
   ExerciseForCalc,
+  IndexedBlocks,
   MaxExParams,
   MusclesRefs,
   ParsedModifiers,
@@ -19,6 +20,7 @@ import { TrainningBlockExercise } from '../../../typeOrm/entities/TrainningBlock
 import { Exercise } from '../../../typeOrm/entities/Exercise';
 import {
   convertExsObjToArray,
+  generateRandomInteger,
   indexArray,
   insertOrAcummulate,
   sampleArrayRandomly,
@@ -135,7 +137,453 @@ export class TrainningsService {
       parsedModifiers,
     );
 
-    console.dir(wodCandidates, { depth: null });
+    const indexedExercises = indexArray(parsedExercises, 'id');
+
+    const wod = this.generateBlock(
+      wodCandidates,
+      wodModifier,
+      'WOD',
+      parsedModifiers,
+      indexedBlocks,
+      indexedExercises,
+    );
+    // console.dir(wod, { depth: null });
+
+    //define SKILL
+    const [skillModifier] = this.defineModifier(
+      totalReps,
+      indexedBlocks.Skill.possibleMods,
+      'skill',
+    );
+    const skillExs = this.filterByBlock(exercisesArray, 'Skill');
+    const skillCandidates = this.applyFilters(
+      skillExs,
+      history,
+      maxExParams,
+      skillModifier,
+      parsedModifiers,
+    );
+    const skill = this.generateBlock(
+      skillCandidates,
+      skillModifier,
+      'Skill',
+      parsedModifiers,
+      indexedBlocks,
+      indexedExercises,
+    );
+
+    //define warm up
+    const [warmUpModifier] = this.defineModifier(
+      totalReps,
+      indexedBlocks['Warm Up'].possibleMods,
+      'warmUp',
+    );
+    const warmUpExs = this.filterByBlock(exercisesArray, 'Warm Up');
+    const warmUpCandidates = this.applyFilters(
+      warmUpExs,
+      history,
+      maxExParams,
+      warmUpModifier,
+      parsedModifiers,
+    );
+    const warmUp = this.generateBlock(
+      warmUpCandidates,
+      warmUpModifier,
+      'Warm Up',
+      parsedModifiers,
+      indexedBlocks,
+      indexedExercises,
+    );
+
+    const generatedTrainning = { warmUp, skill, wod };
+
+    const totalRepsHistory = this.computeTotalReps(history, parsedExercises);
+    const accumulatedTrainningLoadsHistory = this.calculateTrainningLoad(
+      totalRepsHistory,
+      parsedExercises,
+    );
+
+    console.log('Suggested trainning =====================');
+    console.dir(generatedTrainning, { depth: null });
+
+    if (quantity === 0) return console.log('done');
+
+    this.generateTrainning(
+      quantity - 1,
+      history.concat(generatedTrainning),
+      baseParams,
+    );
+  }
+
+  private defineNumberOfSamples(
+    modifier: string,
+    numberOfCandidates: number,
+    modifiers: ParsedModifiers,
+  ) {
+    let numberOfSamples = generateRandomInteger(
+      modifiers[modifier].maxCandidates,
+      modifiers[modifier].minCandidates,
+    );
+
+    if (numberOfCandidates < numberOfSamples)
+      numberOfSamples = numberOfCandidates;
+    return numberOfSamples;
+  }
+
+  private generateBlock(
+    candidates: ExerciseForCalc[],
+    modifier: string,
+    block: string,
+    modifiers: ParsedModifiers,
+    blocks: IndexedBlocks,
+    exercises: { [key: number]: ExerciseForCalc },
+  ) {
+    //checks for each mod and implements their rules
+
+    if (modifier === 'EMOM') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+      const maxDurationPerBlock = 45;
+
+      const blockExercises = selection.map((sel) => {
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
+          load: 0.5,
+        };
+      });
+
+      const minDuration = blocks[block].minDurationInM;
+      const maxDuration = blocks[block].maxDurationInM;
+      const targetDuration = generateRandomInteger(maxDuration, minDuration);
+
+      const multiple = Math.trunc(targetDuration / selection.length);
+
+      const durationInM = multiple * selection.length;
+
+      return { exercises: blockExercises, modifier: 'EMOM', durationInM };
+    }
+
+    if (modifier === 'Strength') {
+      // filter to leave candidates that have high impact on muscles
+      let filterLooseness = 0;
+      let numberOfCandidates = 0;
+      const initialFilter = 4;
+      let candidatesByImpact = [...candidates];
+      while (
+        numberOfCandidates < modifiers[modifier].minCandidates &&
+        filterLooseness <= 5
+      ) {
+        candidatesByImpact = candidatesByImpact.filter((candidate) => {
+          const highestImpact = candidate.musclesTargeted.reduce(
+            (acc, ex) =>
+              (ex.name !== 'abs' && (ex.impact > acc ? ex.impact : acc)) || acc,
+            0,
+          );
+          return highestImpact >= initialFilter - filterLooseness;
+        });
+        numberOfCandidates = candidatesByImpact.length;
+        filterLooseness++;
+      }
+
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidatesByImpact.length,
+        modifiers,
+      );
+
+      const selection = sampleArrayRandomly(
+        candidatesByImpact,
+        numberOfSamples,
+      );
+
+      const blockExercises = selection.map((sel) => {
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: generateRandomInteger(30, 25),
+          load: 0.8,
+        };
+      });
+
+      return {
+        exercises: blockExercises,
+        modifier: 'Strength',
+        durationInM: generateRandomInteger(10, 8), // here duration is simbolic, what matters is total reps
+      };
+    }
+
+    if (modifier === 'n rounds FT') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+
+      const minDuration = blocks[block].minDurationInM;
+      const maxDuration = blocks[block].maxDurationInM;
+      const targetDuration = generateRandomInteger(maxDuration, minDuration);
+
+      // high impact exercises should have less reps
+      const blockExercises = selection.map((sel) => {
+        const highestImpact = sel.musclesTargeted.reduce(
+          (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
+          0,
+        );
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
+          load: 0.5,
+        };
+      });
+
+      return {
+        exercises: blockExercises,
+        modifier: 'n rounds FT',
+        durationInM: targetDuration,
+      };
+    }
+
+    if (modifier === 'Chipper') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+
+      // high impact exercises shoul have less reps
+      const blockExercises = selection.map((sel) => {
+        const highestImpact = sel.musclesTargeted.reduce(
+          (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
+          0,
+        );
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round(generateRandomInteger(40, 30)),
+          load: highestImpact >= 4 ? 0.3 : 0.5,
+        };
+      });
+
+      const roundDuration = blockExercises.reduce((acc, ex) => {
+        return (acc += exercises[ex.id].timePerRepInS * ex.reps);
+      }, 0);
+      return {
+        exercises: blockExercises,
+        modifier: 'Chipper',
+        durationInM: Math.round(roundDuration / 60),
+      };
+    }
+
+    if (modifier === '40" on 20" off') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+      const maxDurationPerBlock = 40;
+
+      const blockExercises = selection.map((sel) => {
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
+          load: 0.5,
+        };
+      });
+
+      const minDuration = blocks[block].minDurationInM;
+      const maxDuration = blocks[block].maxDurationInM;
+      const targetDuration = generateRandomInteger(maxDuration, minDuration);
+
+      const multiple = Math.trunc(targetDuration / selection.length);
+
+      const durationInM = multiple * selection.length;
+
+      return {
+        exercises: blockExercises,
+        modifier: '40" on 20" off',
+        durationInM,
+      };
+    }
+
+    if (modifier === 'TABATA') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+      const maxDurationPerBlock = 20;
+
+      const blockExercises = selection.map((sel) => {
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
+          load: 0.5,
+        };
+      });
+
+      const maxDuration = blocks[block].maxDurationInM;
+      let durationInM = 4;
+      if (numberOfSamples <= 2) durationInM = 4;
+      if (2 < numberOfSamples && numberOfSamples <= 4) durationInM = 8;
+      if (numberOfSamples > 4) durationInM = 12;
+
+      return { exercises: blockExercises, modifier: 'TABATA', durationInM };
+    }
+
+    if (modifier === 'AMRAP') {
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidates.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(candidates, numberOfSamples);
+
+      const minDuration = blocks[block].minDurationInM;
+      const maxDuration = blocks[block].maxDurationInM;
+      const targetDuration = generateRandomInteger(maxDuration, minDuration);
+
+      // high impact exercises shoul have less reps
+      const blockExercises = selection.map((sel) => {
+        const highestImpact = sel.musclesTargeted.reduce(
+          (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
+          0,
+        );
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
+          load: 0.5,
+        };
+      });
+
+      return {
+        exercises: blockExercises,
+        modifier: 'AMRAP',
+        durationInM: targetDuration,
+      };
+    }
+
+    if (modifier === 'Technique') {
+      // filter to leave candidates that are com[;ex and need work on techinique
+      let filterLooseness = 0;
+      let numberOfCandidates = 0;
+      const initialFilter = 4;
+      let candidatesByComplexity = [...candidates];
+      while (
+        numberOfCandidates < modifiers[modifier].minCandidates &&
+        filterLooseness <= 5
+      ) {
+        candidatesByComplexity = candidatesByComplexity.filter(
+          (candidate) =>
+            candidate.complexity >= initialFilter - filterLooseness,
+        );
+        numberOfCandidates = candidatesByComplexity.length;
+        filterLooseness++;
+      }
+
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidatesByComplexity.length,
+        modifiers,
+      );
+      const selection = sampleArrayRandomly(
+        candidatesByComplexity,
+        numberOfSamples,
+      );
+
+      // high impact exercises should have less reps
+      const blockExercises = selection.map((sel) => {
+        const highestImpact = sel.musclesTargeted.reduce(
+          (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
+          0,
+        );
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round((generateRandomInteger(50, 35) / highestImpact) * 2),
+          load: 0.3,
+        };
+      });
+
+      return {
+        exercises: blockExercises,
+        modifier: 'Technique',
+        durationInM: 10,
+      };
+    }
+
+    if (modifier === 'Core Day') {
+      //leave candidates thar are work out the core and are high in cardio
+      let filterLooseness = 0;
+      let numberOfCandidates = 0;
+      const initialFilter = 3;
+      let candidatesByImpact = [...candidates];
+      while (
+        numberOfCandidates < modifiers[modifier].minCandidates &&
+        filterLooseness <= 5
+      ) {
+        candidatesByImpact = candidatesByImpact.filter((candidate) => {
+          const indexedMuscleTargetsindexArray = indexArray(
+            candidate.musclesTargeted,
+            'name',
+          );
+
+          return (
+            indexedMuscleTargetsindexArray['abs'] &&
+            indexedMuscleTargetsindexArray['abs'].impact >=
+              initialFilter - filterLooseness
+          );
+        });
+        numberOfCandidates = candidatesByImpact.length;
+        filterLooseness++;
+      }
+
+      const numberOfSamples = this.defineNumberOfSamples(
+        modifier,
+        candidatesByImpact.length,
+        modifiers,
+      );
+
+      const selection = sampleArrayRandomly(
+        candidatesByImpact,
+        numberOfSamples,
+      );
+
+      const blockExercises = selection.map((sel) => {
+        const highestImpact = sel.musclesTargeted.reduce(
+          (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
+          0,
+        );
+        return {
+          id: sel.id,
+          name: sel.name,
+          reps: Math.round((generateRandomInteger(60, 40) / highestImpact) * 2),
+          load: 0.3,
+        };
+      });
+
+      const roundDuration = blockExercises.reduce((acc, ex) => {
+        return (acc += exercises[ex.id].timePerRepInS * ex.reps);
+      }, 0);
+      return {
+        exercises: blockExercises,
+        modifier: 'Core Day',
+        durationInM: Math.round(roundDuration / 60),
+      };
+    }
   }
 
   private applyFilters(
