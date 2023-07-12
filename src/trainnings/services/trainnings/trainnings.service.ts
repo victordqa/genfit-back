@@ -30,6 +30,7 @@ import { Modifier } from '../../../typeOrm/entities/Modifier';
 
 @Injectable()
 export class TrainningsService {
+  // suggested = [] as TrainningForCalc[];
   constructor(
     @InjectRepository(Box) private boxRepository: Repository<Box>,
     @InjectRepository(Trainning)
@@ -71,12 +72,12 @@ export class TrainningsService {
       },
     );
 
-    console.dir(suggestedTrainnings, { depth: null });
-
     const trainningsWithIds = suggestedTrainnings.map((trainning) => {
       const trainnigWithBlockIds = Object.entries(trainning).reduce(
         (acc, [blockName, blockDetails]) => {
-          let blockId = blocks.filter((b) => b.name === blockName)[0].id;
+          let blockId = blocks.filter(
+            (b) => b.name === this.convertBlockName(blockName),
+          )[0].id;
           return { ...acc, [blockName]: { ...blockDetails, blockId } };
         },
         {},
@@ -97,9 +98,8 @@ export class TrainningsService {
       modifiers: Modifier[];
     },
     suggested: TrainningForCalc[] = [],
-  ) {
+  ): TrainningForCalc[] {
     if (quantity === 0) {
-      console.log(suggested);
       return suggested;
     }
 
@@ -227,7 +227,7 @@ export class TrainningsService {
     );
 
     suggested.push(generatedTrainning);
-    this.generateTrainning(
+    return this.generateTrainning(
       quantity - 1,
       history.concat(generatedTrainning),
       baseParams,
@@ -795,7 +795,8 @@ export class TrainningsService {
   ) {
     return exs.reduce((acc, ex) => {
       //get ex by id
-      const exCompleteInfo = exercises[ex.id];
+
+      const [exCompleteInfo] = exercises.filter((dbEx) => ex.id === dbEx.id);
       let muscleLoads = exCompleteInfo.musclesTargeted.map((muscle) => {
         let muscleLoad = muscle.impact * ex.reps * ex.load;
         return { name: muscle.name, load: muscleLoad };
@@ -866,7 +867,8 @@ export class TrainningsService {
     if (modifier === 'AMRAP') {
       //compute block total duration
       const roundDuration = block.exercises.reduce((acc, ex) => {
-        return (acc += exercises[ex.id].timePerRepInS * ex.reps);
+        const [exCompleteInfo] = exercises.filter((dbEx) => ex.id === dbEx.id);
+        return (acc += exCompleteInfo.timePerRepInS * ex.reps);
       }, 0);
       const numberOfRounds = Math.round(
         (block.durationInM * 60) / roundDuration,
@@ -910,7 +912,8 @@ export class TrainningsService {
 
     if (modifier === 'n rounds FT') {
       const roundDuration = block.exercises.reduce((acc, ex) => {
-        return (acc += exercises[ex.id].timePerRepInS * ex.reps);
+        const [exCompleteInfo] = exercises.filter((dbEx) => ex.id === dbEx.id);
+        return (acc += exCompleteInfo.timePerRepInS * ex.reps);
       }, 0);
       const numberOfRounds = Math.round(
         (block.durationInM * 60) / roundDuration,
@@ -930,17 +933,21 @@ export class TrainningsService {
     return block;
   }
 
+  private convertBlockName(name: string) {
+    if (name === 'WOD') return 'wod';
+    if (name === 'Skill') return 'skill';
+    if (name === 'Warm Up') return 'warmUp';
+    if (name === 'wod') return 'WOD';
+    if (name === 'skill') return 'Skill';
+    if (name === 'warmUp') return 'Warm Up';
+  }
   private dbTrainningToCalcTrainningParser(trainnings: Trainning[]) {
     //parse from db format to the format used in the service calculations so we can reutilize those functions
-    const convertBlockName = (name: string) => {
-      if (name === 'WOD') return 'wod';
-      if (name === 'Skill') return 'skill';
-      if (name === 'Warm Up') return 'warmUp';
-    };
+
     return trainnings.map((trainning) => {
       let calcTrainning = {} as TrainningForCalc;
       trainning.trainningBlocks.forEach((trainningBlock) => {
-        let blockName = convertBlockName(trainningBlock.block.name);
+        let blockName = this.convertBlockName(trainningBlock.block.name);
         let blockId = trainningBlock.id;
         let blockDuration = trainningBlock.duration_in_m;
         let blockModifierName = trainningBlock.modifier.name;
