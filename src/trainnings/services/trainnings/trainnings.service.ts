@@ -25,7 +25,6 @@ import {
   insertOrAcummulate,
   sampleArrayRandomly,
 } from '../../../helpers/mathHelpers';
-import { musclesRefs } from '../../../typeOrm/seeds/muscles';
 import { Block } from '../../../typeOrm/entities/Block';
 import { Modifier } from '../../../typeOrm/entities/Modifier';
 
@@ -61,16 +60,34 @@ export class TrainningsService {
     const blocks = await this.exercisesService.listBlocksAndPreloads();
     const modifiers = await this.exercisesService.listModifiers();
 
-    this.generateTrainning(suggestTrainningParams.quantity, parsedHistory, {
-      exercises,
-      musclesRefs,
-      blocks,
-      modifiers,
+    const suggestedTrainnings = this.generateTrainning(
+      suggestTrainningParams.quantity,
+      parsedHistory,
+      {
+        exercises,
+        musclesRefs,
+        blocks,
+        modifiers,
+      },
+    );
+
+    console.dir(suggestedTrainnings, { depth: null });
+
+    const trainningsWithIds = suggestedTrainnings.map((trainning) => {
+      const trainnigWithBlockIds = Object.entries(trainning).reduce(
+        (acc, [blockName, blockDetails]) => {
+          let blockId = blocks.filter((b) => b.name === blockName)[0].id;
+          return { ...acc, [blockName]: { ...blockDetails, blockId } };
+        },
+        {},
+      );
+
+      return { boxId: suggestTrainningParams.boxId, trainnigWithBlockIds };
     });
-    return { msg: 'Hello!' };
+    return trainningsWithIds;
   }
 
-  private async generateTrainning(
+  private generateTrainning(
     quantity: number,
     history: TrainningForCalc[],
     baseParams: {
@@ -79,7 +96,13 @@ export class TrainningsService {
       blocks: Block[];
       modifiers: Modifier[];
     },
+    suggested: TrainningForCalc[] = [],
   ) {
+    if (quantity === 0) {
+      console.log(suggested);
+      return suggested;
+    }
+
     const { exercises, musclesRefs, blocks, modifiers } = baseParams;
     // console.dir(exercises, { depth: null });
     const parsedExercises = this.exerciseDbToExerciseForCalcParser(exercises);
@@ -203,15 +226,12 @@ export class TrainningsService {
       parsedExercises,
     );
 
-    console.log('Suggested trainning =====================');
-    console.dir(generatedTrainning, { depth: null });
-
-    if (quantity === 0) return console.log('done');
-
+    suggested.push(generatedTrainning);
     this.generateTrainning(
       quantity - 1,
       history.concat(generatedTrainning),
       baseParams,
+      suggested,
     );
   }
 
