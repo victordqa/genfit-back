@@ -186,6 +186,7 @@ export class TrainningsService {
       skillModifier,
       parsedModifiers,
     );
+
     const skill = this.generateBlock(
       skillCandidates,
       skillModifier,
@@ -497,7 +498,7 @@ export class TrainningsService {
     }
 
     if (modifier === 'Technique') {
-      // filter to leave candidates that are com[;ex and need work on techinique
+      // filter to leave candidates that are complex and need work on techinique
       let filterLooseness = 0;
       let numberOfCandidates = 0;
       const initialFilter = 4;
@@ -519,6 +520,7 @@ export class TrainningsService {
         candidatesByComplexity.length,
         modifiers,
       );
+      if (numberOfSamples === 0) candidatesByComplexity = candidates;
       const selection = sampleArrayRandomly(
         candidatesByComplexity,
         numberOfSamples,
@@ -546,7 +548,7 @@ export class TrainningsService {
     }
 
     if (modifier === 'Core Day') {
-      //leave candidates thar are work out the core and are high in cardio
+      //leave candidates that work out the core and are high in cardio
       let filterLooseness = 0;
       let numberOfCandidates = 0;
       const initialFilter = 3;
@@ -562,14 +564,19 @@ export class TrainningsService {
           );
 
           return (
-            indexedMuscleTargetsindexArray['abs'] &&
-            indexedMuscleTargetsindexArray['abs'].impact >=
+            indexedMuscleTargetsindexArray['abdominal'] &&
+            indexedMuscleTargetsindexArray['abdominal'].impact >=
               initialFilter - filterLooseness
           );
         });
         numberOfCandidates = candidatesByImpact.length;
         filterLooseness++;
       }
+
+      // console.log('========');
+      // console.log(modifier);
+      // console.log(candidatesByImpact.length);
+      // console.log(modifiers);
 
       const numberOfSamples = this.defineNumberOfSamples(
         modifier,
@@ -581,7 +588,6 @@ export class TrainningsService {
         candidatesByImpact,
         numberOfSamples,
       );
-
       const blockExercises = selection.map((sel) => {
         const highestImpact = sel.musclesTargeted.reduce(
           (acc, exInfo) => (exInfo.impact > acc ? exInfo.impact : acc),
