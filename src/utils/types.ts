@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export type CreateCoachParams = {
   name: string;
   email: string;
@@ -24,11 +26,6 @@ export type SuggestTrainningParams = {
   boxId: number;
   quantity: number;
   coachId;
-};
-
-export type CreateTrainningParams = {
-  boxId: number;
-  quantity: number;
 };
 
 export type TrainningExerciseData = {
@@ -76,3 +73,5 @@ export type IndexedBlocks = {
     possibleMods: string[];
   };
 };
+
+export type CreateTrainningParams = {};
