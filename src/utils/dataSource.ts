@@ -42,6 +42,7 @@ export const dataSourceOptionsFactory = (): DataSourceOptions => {
     migrationsRun: env.migrationsRun,
     dropSchema: env.dropSchema,
     synchronize: env.synchronize,
+    // dropSchema: true,
   };
 };
 

@@ -1,5 +1,3 @@
-import { type } from 'os';
-
 export type CreateCoachParams = {
   name: string;
   email: string;
@@ -74,4 +72,28 @@ export type IndexedBlocks = {
   };
 };
 
-export type CreateTrainningParams = {};
+type BlockDetails = {
+  exercises: {
+    id: number;
+    reps: number;
+    load: number;
+  }[];
+  durationInM: number;
+  modifier: string;
+  blockId: number;
+  modifierId: number;
+};
+
+type TrainningWithBlockIdsDetails = {
+  warmUp: BlockDetails;
+  skill: BlockDetails;
+  wod: BlockDetails;
+};
+
+export type SingleTrainningDetails = {
+  trainningWithBlockIds: TrainningWithBlockIdsDetails;
+};
+export type CreateTrainningParams = {
+  boxId: number;
+  trainnings: SingleTrainningDetails[];
+};

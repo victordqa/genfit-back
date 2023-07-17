@@ -11,7 +11,7 @@ import {
 import { TrainningsService } from '../../services/trainnings/trainnings.service';
 import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
 import { User } from '../../../coaches/controllers/coaches/decorators/user.decorator';
-import { UserPayload } from '../../../utils/types';
+import { SingleTrainningDetails, UserPayload } from '../../../utils/types';
 import { SuggestTrainningDto } from '../../dtos/SuggestTrainning.dto';
 import { IsBoxOwnerGuard } from '../../../trainning/guards/is-box-owner/is-box-owner.guard';
 import { CreateTrainningDto } from '../../dtos/CreateTrainning.dto';
@@ -43,18 +43,15 @@ export class TrainningsController {
   }
 
   @UsePipes(ValidationPipe)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
   @Post('create')
-  async createTrainning(
-    @Body() createTrainningDto: CreateTrainningDto,
-    @User() userPayload: UserPayload,
-  ) {
-    // const createdTrainning = await this.trainningsService.createTrainning({
-    //   name: createBoxDto.name,
-    //   coachId: userPayload.sub,
-    // });
-    console.dir(createTrainningDto, { depth: null });
-    // this.trainningsService.createTrainning();
-    return { msg: 'ok' };
+  async createTrainning(@Body() createTrainningDto: CreateTrainningDto) {
+    const { boxId, trainnings } = createTrainningDto;
+    const createdTrainnings = await this.trainningsService.createTrainning({
+      boxId,
+      trainnings,
+    });
+
+    return { createdTrainnings };
   }
 }

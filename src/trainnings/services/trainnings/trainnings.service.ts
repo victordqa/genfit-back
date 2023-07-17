@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   AccumulatedLoads,
+  CreateTrainningParams,
   ExerciseForCalc,
   IndexedBlocks,
   MaxExParams,
@@ -11,7 +12,7 @@ import {
   TrainningExerciseData,
   TrainningForCalc,
 } from '../../../utils/types';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Box } from '../../../typeOrm/entities/Box';
 import { Trainning } from '../../../typeOrm/entities/Trainning';
 import { TrainningBlock } from '../../../typeOrm/entities/TrainningBlock';
@@ -40,6 +41,7 @@ export class TrainningsService {
     @InjectRepository(TrainningBlock)
     private trainningBlockRepository: Repository<TrainningBlock>,
     private exercisesService: ExercisesService,
+    private dataSource: DataSource,
   ) {}
   async suggestTrainning(suggestTrainningParams: SuggestTrainningParams) {
     //get trainning history from db
@@ -73,19 +75,25 @@ export class TrainningsService {
     );
 
     const trainningsWithIds = suggestedTrainnings.map((trainning) => {
-      const trainnigWithBlockIds = Object.entries(trainning).reduce(
+      const trainningWithBlockIds = Object.entries(trainning).reduce(
         (acc, [blockName, blockDetails]) => {
           let blockId = blocks.filter(
             (b) => b.name === this.convertBlockName(blockName),
           )[0].id;
-          return { ...acc, [blockName]: { ...blockDetails, blockId } };
+          let modifierId = modifiers.filter(
+            (m) => m.name === blockDetails.modifier,
+          )[0].id;
+          return {
+            ...acc,
+            [blockName]: { ...blockDetails, blockId, modifierId },
+          };
         },
         {},
       );
 
-      return { boxId: suggestTrainningParams.boxId, trainnigWithBlockIds };
+      return { trainningWithBlockIds };
     });
-    return trainningsWithIds;
+    return { boxId: suggestTrainningParams.boxId, trainningsWithIds };
   }
 
   private generateTrainning(
@@ -1000,60 +1008,59 @@ export class TrainningsService {
     return trainnings;
   }
 
-  async createTrainning() {
-    const boxId = 1;
-    const trainningParams = {
-      warmUp: {
-        exercises: [{ id: 11, name: 'Overhead Lunges', reps: 10, load: 0.5 }],
-        modifier: '40" on 20" off',
-        modifierId: 4,
-        durationInM: 5,
-        blockId: 1,
-      },
-      skill: {
-        exercises: [
-          { id: 1, name: 'Deadlift', reps: 28, load: 0.8 },
-          { id: 54, name: 'Split Jerk', reps: 26, load: 0.8 },
-        ],
-        modifier: 'Strength',
-        modifierId: 6,
-        durationInM: 9,
-        blockId: 2,
-      },
-      wod: {
-        exercises: [
-          { id: 28, name: 'Strict Ring Dip', reps: 31, load: 0.3 },
-          { id: 3, name: 'Back Squat', reps: 39, load: 0.3 },
-          { id: 48, name: 'Sit Up', reps: 32, load: 0.3 },
-          { id: 1, name: 'Deadlift', reps: 30, load: 0.3 },
-        ],
-        modifier: 'Chipper',
-        modifierId: 7,
-        durationInM: 6,
-        blockId: 3,
-      },
-    };
-    const trainningInstance = this.trainningRepository.create({ boxId });
-    await this.trainningRepository.save(trainningInstance);
-    Object.entries(trainningParams).forEach(async ([_blockName, block]) => {
-      let trainningBlockInstance = this.trainningBlockRepository.create({
-        duration_in_m: block.durationInM,
-        blockId: block.blockId,
-        modifierId: block.modifierId,
-      });
-      trainningBlockInstance.trainning = trainningInstance;
-      let trainningBlockDb = await this.trainningBlockRepository.save(
-        trainningBlockInstance,
+  async createTrainning(createTrainningParams: CreateTrainningParams) {
+    const { boxId, trainnings } = createTrainningParams;
+
+    console.log(trainnings);
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const savedTrainnings = await Promise.all(
+        trainnings.map(async (trainning) => {
+          const trainningInstance = this.trainningRepository.create({ boxId });
+          const savedTrainning = await queryRunner.manager.save(
+            trainningInstance,
+          );
+          console.log('trainning: ', savedTrainning);
+          await Promise.all(
+            Object.entries(trainning.trainningWithBlockIds).map(
+              async ([_blockName, block]) => {
+                const trainningBlockInstance =
+                  this.trainningBlockRepository.create({
+                    duration_in_m: block.durationInM,
+                    blockId: block.blockId,
+                    modifierId: block.modifierId,
+                  });
+                trainningBlockInstance.trainning = trainningInstance;
+                let savedTrainningBlock = await queryRunner.manager.save(
+                  trainningBlockInstance,
+                );
+
+                let exercisesInstances = block.exercises.map((exercise) => {
+                  return this.trainningBlockExerciseRepository.create({
+                    trainningBlockId: savedTrainningBlock.id,
+                    exerciseId: exercise.id,
+                    reps: exercise.reps,
+                    load: exercise.load,
+                  });
+                });
+                await queryRunner.manager.save(exercisesInstances);
+              },
+            ),
+          );
+          await queryRunner.commitTransaction();
+          return savedTrainning;
+        }),
       );
-      let exercisesInstances = block.exercises.map((exercise) => {
-        return this.trainningBlockExerciseRepository.create({
-          trainningBlockId: trainningBlockDb.id,
-          exerciseId: exercise.id,
-          reps: exercise.reps,
-          load: exercise.load,
-        });
-      });
-      await this.trainningBlockExerciseRepository.save(exercisesInstances);
-    });
+      return savedTrainnings;
+    } catch (err) {
+      console.log(err);
+      await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('Error on training creation');
+    } finally {
+      await queryRunner.release();
+    }
   }
 }

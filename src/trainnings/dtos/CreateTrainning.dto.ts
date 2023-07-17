@@ -8,6 +8,9 @@ import {
   max,
   ValidateNested,
   IsNotEmpty,
+  maxLength,
+  ArrayMaxSize,
+  ArrayMinSize,
 } from 'class-validator';
 
 class ExerciseDto {
@@ -43,6 +46,10 @@ class BlockDto {
   @Min(1)
   @IsNumber()
   blockId: number;
+
+  @Min(1)
+  @IsNumber()
+  modifierId: number;
 }
 
 class TrainningWithBlockIdsDto {
@@ -60,19 +67,21 @@ class TrainningWithBlockIdsDto {
 }
 
 class SingleTrainningDto {
-  @Min(1)
-  @IsNumber()
-  boxId: number;
-
   @Type(() => TrainningWithBlockIdsDto)
   @ValidateNested()
   @IsNotEmpty()
-  trainnigWithBlockIds: TrainningWithBlockIdsDto;
+  trainningWithBlockIds: TrainningWithBlockIdsDto;
 }
 
 export class CreateTrainningDto {
   @Type(() => SingleTrainningDto)
   @ValidateNested()
   @IsNotEmpty()
-  trainnings: TrainningWithBlockIdsDto[];
+  @ArrayMaxSize(14)
+  @ArrayMinSize(1)
+  trainnings: SingleTrainningDto[];
+
+  @Min(1)
+  @IsNumber()
+  boxId: number;
 }
