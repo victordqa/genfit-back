@@ -14,7 +14,7 @@ export class AuthService {
 
     if (!dbCoach) {
       throw new HttpException(
-        'Invalid email or password',
+        'Email ou senha invalidos',
         HttpStatus.UNAUTHORIZED,
       );
     }
@@ -22,7 +22,7 @@ export class AuthService {
     const hashMatch = await compareHashes(password, dbCoach.password);
     if (!hashMatch) {
       throw new HttpException(
-        'Invalid email or password',
+        'Email ou senha invalidos',
         HttpStatus.UNAUTHORIZED,
       );
     }
