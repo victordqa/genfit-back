@@ -46,4 +46,11 @@ export class CoachesController {
     const boxes = await this.coachesService.listCoachBoxes(userPayload.sub);
     return { boxes };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async findCoachById(@User() userPayload: UserPayload) {
+    const coach = await this.coachesService.findCoachById(userPayload.sub);
+    return { coach };
+  }
 }

@@ -102,6 +102,13 @@ export class CoachesService {
     return boxes;
   }
 
+  async findCoachById(coachId: number) {
+    const { password, ...rest } = await this.coachRepository.findOne({
+      where: { id: coachId },
+    });
+    return rest;
+  }
+
   findCoachByEmail(email: string) {
     return this.coachRepository.findOne({ where: { email } });
   }
