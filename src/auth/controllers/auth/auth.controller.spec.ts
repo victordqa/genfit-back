@@ -35,6 +35,11 @@ describe('AuthController', () => {
     authService = module.get<AuthService>('AUTH_SERVICE');
   });
 
+  afterEach(() => {
+    // restore the spy created with spyOn
+    jest.restoreAllMocks();
+  });
+
   it(' controller should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -49,6 +54,17 @@ describe('AuthController', () => {
       expect(resMock.cookie).toHaveBeenCalledWith(
         'accessToken',
         { access_token: 'some token' },
+        expect.anything(),
+      );
+    });
+  });
+
+  describe('logout', () => {
+    it('should clear the session cookie', async () => {
+      await controller.logout(reqMock, resMock);
+      expect(resMock.cookie).toHaveBeenCalledWith(
+        'accessToken',
+        'none',
         expect.anything(),
       );
     });
