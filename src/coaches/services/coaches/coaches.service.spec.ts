@@ -6,7 +6,6 @@ import { Box } from 'src/typeOrm/entities/Box';
 import { DataSource, Repository } from 'typeorm';
 import * as hashingUtils from 'src/utils/hashing';
 import { ExercisesService } from 'src/exercises/services/exercises/exercises.service';
-import { create } from 'domain';
 
 describe('CoachesService', () => {
   let service: CoachesService;
