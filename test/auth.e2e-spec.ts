@@ -12,7 +12,6 @@ describe('Auth (e2e)', () => {
     password: '123456',
     confirmPassword: '123456',
   };
-  let tokenMock: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -72,6 +71,22 @@ describe('Auth (e2e)', () => {
       expect(res.statusCode).toBe(201);
     });
   });
+
+  describe('POST - auth/logout', () => {
+    it('should send instructions for the user agent to clear the token', async () => {
+      //login user
+
+      await request(app.getHttpServer()).post('/auth/login').send({
+        email: coachDataMock.email,
+        password: coachDataMock.password,
+      });
+
+      let res = await request(app.getHttpServer()).get('/auth/logout');
+      expect(res.statusCode).toBe(200);
+      expect(res.headers['set-cookie'][0]).toMatch('accessToken=none');
+    });
+  });
+
   afterAll(async () => {
     await app.close();
   });
