@@ -27,7 +27,7 @@ export class AuthController {
     const jwt_obj = await this.authService.login(coach);
     const jwtExp = this.configService.get<string>('JWT_EXPIRATION_IN_S');
 
-    res.cookie('accessToken', jwt_obj, {
+    res.cookie('accessToken', jwt_obj.access_token, {
       expires: new Date(
         new Date().getTime() + Number.parseInt(jwtExp.split('s')[0]) * 1000,
       ),
@@ -36,7 +36,7 @@ export class AuthController {
     });
 
     return res.send({
-      jwt_obj,
+      accessToken: jwt_obj.access_token,
       coach: { name: coach.name, email: coach.email, id: coach.id },
     });
   }

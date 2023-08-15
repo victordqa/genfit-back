@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import * as cookieParser from 'cookie-parser';
 
 describe('Auth (e2e)', () => {
   let app: INestApplication;
@@ -19,6 +20,7 @@ describe('Auth (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.use(cookieParser());
     await app.init();
 
     //create a user
@@ -34,11 +36,11 @@ describe('Auth (e2e)', () => {
         password: coachDataMock.password,
       });
       expect(res.statusCode).toBe(201);
-      expect(res.body.access_token).toBeTruthy();
-      tokenMock = res.body.access_token;
+      // expect(res.body.access_token).toBeTruthy();
+      // tokenMock = res.body.jwt_obj;
     });
 
-    it('should not let a unregistred user consume prive routes', async () => {
+    it('should not let a unregistered user consume private routes', async () => {
       let res = await request(app.getHttpServer())
         .post('/coaches/create-box')
         .send({
@@ -46,6 +48,28 @@ describe('Auth (e2e)', () => {
           password: coachDataMock.password,
         });
       expect(res.statusCode).toBe(401);
+    });
+
+    it('should let a registered user consume private routes', async () => {
+      //login user
+
+      let loginRes = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: coachDataMock.email,
+          password: coachDataMock.password,
+        });
+
+      const token_value = loginRes.body.accessToken;
+
+      let res = await request(app.getHttpServer())
+        .post('/coaches/create-box')
+        .set('Cookie', [`accessToken=${token_value}`])
+        .send({
+          name: 'some box name',
+          password: coachDataMock.password,
+        });
+      expect(res.statusCode).toBe(201);
     });
   });
   afterAll(async () => {

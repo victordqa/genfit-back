@@ -139,7 +139,7 @@ describe('CoachesService', () => {
         }
       });
 
-      it('should throw passwords do not match if it is the case', async () => {
+      it('should throw if passwords do not match', async () => {
         try {
           await service.createCoach({
             name: 'Victor',

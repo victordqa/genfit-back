@@ -9,7 +9,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // somewhere in your initialization file
   app.use(cookieParser());
   await app.listen(3001);
 }
