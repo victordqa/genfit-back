@@ -68,10 +68,6 @@ describe('CoachesService', () => {
     dataSource = module.get<DataSource>(DataSource);
   });
 
-  afterEach(() => {
-    // restore the spy created with spyOn
-    // jest.restoreAllMocks();
-  });
   const coachDataMock = {
     name: 'Victor',
     email: 'v@gmail.com',
@@ -95,6 +91,7 @@ describe('CoachesService', () => {
       expect(service).toBeDefined();
       expect(coachRepository).toBeDefined();
       expect(boxRepository).toBeDefined();
+      expect(exercisesService).toBeDefined();
     });
 
     describe('createCoach method', () => {
@@ -112,7 +109,7 @@ describe('CoachesService', () => {
           boxes: [],
           exercises: [],
         });
-        const coach = await service.createCoach(coachDataMock);
+        await service.createCoach(coachDataMock);
         expect(hashingUtils.hashPassword).toHaveBeenCalledWith('123456');
       });
       it(' should throw if email is taken', async () => {
