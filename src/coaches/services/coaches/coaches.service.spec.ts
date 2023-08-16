@@ -18,6 +18,13 @@ describe('CoachesService', () => {
   const BOX_TOKEN = getRepositoryToken(Box);
   const DATA_SOURCE_TOKEN = getDataSourceToken();
 
+  const connectMock = jest.fn();
+  const startTransactionMock = jest.fn();
+  const saveTransactionMock = jest.fn();
+  const commitTransactionMock = jest.fn();
+  const releaseMock = jest.fn();
+  const rollbackTransactionMock = jest.fn();
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -48,14 +55,14 @@ describe('CoachesService', () => {
         {
           provide: DATA_SOURCE_TOKEN,
           useValue: {
-            createQueryRunner: () => ({
-              connect: jest.fn(),
-              startTransaction: jest.fn(),
-              manager: { save: jest.fn() },
-              commitTransaction: jest.fn(),
-              release: jest.fn(),
-              rollbackTransaction: jest.fn(),
-            }),
+            createQueryRunner: jest.fn(() => ({
+              connect: connectMock,
+              startTransaction: startTransactionMock,
+              manager: { save: saveTransactionMock },
+              commitTransaction: commitTransactionMock,
+              release: releaseMock,
+              rollbackTransaction: rollbackTransactionMock,
+            })),
           },
         },
       ],
@@ -168,6 +175,50 @@ describe('CoachesService', () => {
             password: 'hashed123456',
           }),
         );
+      });
+
+      it('should call on query runner manager save method with correct params', async () => {
+        await service.createCoach({
+          name: 'Victor',
+          email: 'v@gmail.com',
+          password: '123456',
+          confirmPassword: '123456',
+        });
+        expect(dataSource.createQueryRunner).toHaveBeenCalled();
+        expect(connectMock).toHaveBeenCalled();
+        expect(startTransactionMock).toHaveBeenCalled();
+        expect(saveTransactionMock).toHaveBeenCalledWith(
+          expect.objectContaining(coachDataMock),
+        );
+      });
+
+      it('should rollback if any error occurs', async () => {
+        jest
+          .spyOn(dataSource.createQueryRunner().manager, 'save')
+          .mockReturnValueOnce(
+            new Promise((_res, _rej) => {
+              throw new Error('error on saving transaction');
+            }),
+          );
+
+        await expect(async () => {
+          await service.createCoach({
+            name: 'Victor',
+            email: 'v@gmail.com',
+            password: '123456',
+            confirmPassword: '123456',
+          });
+        }).rejects.toThrow(
+          'Error on user creation and default exercise seeding',
+        );
+
+        expect(dataSource.createQueryRunner).toHaveBeenCalled();
+        expect(connectMock).toHaveBeenCalled();
+        expect(startTransactionMock).toHaveBeenCalled();
+        expect(saveTransactionMock).toHaveBeenCalledWith(
+          expect.objectContaining(coachDataMock),
+        );
+        expect(rollbackTransactionMock).toHaveBeenCalled();
       });
     });
     describe('createBox', () => {
