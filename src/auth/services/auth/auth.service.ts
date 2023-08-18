@@ -29,7 +29,7 @@ export class AuthService {
     return dbCoach;
   }
 
-  async login(coach: any) {
+  login(coach: any) {
     const payload = { email: coach.email, sub: coach.id };
     return {
       access_token: this.jwtService.sign(payload),
