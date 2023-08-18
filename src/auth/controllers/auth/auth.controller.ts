@@ -24,7 +24,7 @@ export class AuthController {
   @Post('login')
   async login(@Req() req: Request, @Res() res: Response) {
     const coach = req.user as Coach;
-    const jwt_obj = await this.authService.login(coach);
+    const jwt_obj = this.authService.login(coach);
     const jwtExp = this.configService.get<string>('JWT_EXPIRATION_IN_S');
 
     res.cookie('accessToken', jwt_obj.access_token, {
