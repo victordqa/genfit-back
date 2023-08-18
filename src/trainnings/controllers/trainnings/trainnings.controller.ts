@@ -13,8 +13,9 @@ import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
 import { User } from '../../../coaches/controllers/coaches/decorators/user.decorator';
 import { SingleTrainningDetails, UserPayload } from '../../../utils/types';
 import { SuggestTrainningDto } from '../../dtos/SuggestTrainning.dto';
-import { IsBoxOwnerGuard } from '../../../trainning/guards/is-box-owner/is-box-owner.guard';
+
 import { CreateTrainningDto } from '../../dtos/CreateTrainning.dto';
+import { IsBoxOwnerGuard } from '../../guards/is-box-owner/is-box-owner.guard';
 
 @Controller('trainnings')
 export class TrainningsController {
