@@ -43,6 +43,10 @@ describe('Coach Controller (e2e)', () => {
     confirmPassword: '123456',
   };
 
+  const mockCreateBoxData = {
+    name: 'Victor`s Box',
+  };
+
   describe('POST - coaches/create', () => {
     it('should create a new coach if provided data is valid', async () => {
       const res = await request(app.getHttpServer())
@@ -106,6 +110,7 @@ describe('Coach Controller (e2e)', () => {
       const coach = await coachesFixtureService.createCoach(
         mockCreateCoachData,
       );
+
       const { access_token } = authFixtureService.login(coach);
       const res = await request(app.getHttpServer())
         .get('/coaches/me')
@@ -113,6 +118,58 @@ describe('Coach Controller (e2e)', () => {
 
       expect(res.statusCode).toBe(200);
       expect(res.body.coach.name).toMatch(mockCreateCoachData.name);
+    });
+  });
+
+  describe('POST - coaches/CREATE', () => {
+    it('should create a box for a coach, given the correct parameters', async () => {
+      const coach = await coachesFixtureService.createCoach(
+        mockCreateCoachData,
+      );
+      const { access_token } = authFixtureService.login(coach);
+      const res = await request(app.getHttpServer())
+        .post('/coaches/create-box')
+        .set('Cookie', [`accessToken=${access_token}`])
+        .send(mockCreateBoxData);
+
+      expect(res.statusCode).toBe(201);
+      expect(res.body.id).toBeTruthy();
+    });
+
+    it('should not create a box if name is not provided', async () => {
+      const coach = await coachesFixtureService.createCoach(
+        mockCreateCoachData,
+      );
+      const { access_token } = authFixtureService.login(coach);
+      const res = await request(app.getHttpServer())
+        .post('/coaches/create-box')
+        .set('Cookie', [`accessToken=${access_token}`])
+        .send({});
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message[1]).toMatch(
+        'name must be longer than or equal to 1 characters',
+      );
+    });
+  });
+
+  describe('GET - coaches/boxes', () => {
+    it('should list the boxes of a coach', async () => {
+      const coach = await coachesFixtureService.createCoach(
+        mockCreateCoachData,
+      );
+
+      const box = await coachesFixtureService.createBox({
+        name: mockCreateBoxData.name,
+        coachId: coach.id,
+      });
+      const { access_token } = authFixtureService.login(coach);
+      const res = await request(app.getHttpServer())
+        .get('/coaches/boxes')
+        .set('Cookie', [`accessToken=${access_token}`]);
+      console.log(res.body);
+      expect(res.statusCode).toBe(200);
+      expect(res.body.boxes[0].name).toBe('Victor`s Box');
     });
   });
 

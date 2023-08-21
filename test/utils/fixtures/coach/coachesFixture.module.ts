@@ -3,12 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExercisesModule } from '../../../../src/exercises/exercises.module';
 import { Box } from '../../../../src/typeOrm/entities/Box';
 import { Coach } from '../../../../src/typeOrm/entities/Coach';
-import { CoachesController } from '../../../../src/coaches/controllers/coaches/coaches.controller';
-import { CoachesService } from '../../../../src/coaches/services/coaches/coaches.service';
 import { CoachesFixtureService } from './coachesFixture.service';
+import { Exercise } from '../../../../src/typeOrm/entities/Exercise';
+import { ExerciseMuscleImpact } from '../../../../src/typeOrm/entities/ExerciseMuscleImpact';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coach, Box]), ExercisesModule],
+  imports: [
+    TypeOrmModule.forFeature([Coach, Box, Exercise, ExerciseMuscleImpact]),
+    ExercisesModule,
+  ],
   providers: [CoachesFixtureService],
   exports: [CoachesFixtureService],
 })
