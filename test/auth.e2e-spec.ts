@@ -35,8 +35,6 @@ describe('Auth (e2e)', () => {
         password: coachDataMock.password,
       });
       expect(res.statusCode).toBe(201);
-      // expect(res.body.access_token).toBeTruthy();
-      // tokenMock = res.body.jwt_obj;
     });
 
     it('should not let a unregistered user consume private routes', async () => {

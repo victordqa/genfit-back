@@ -3,32 +3,33 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Repository } from 'typeorm';
-import { Coach } from '../src/typeOrm/entities/Coach';
-import { hashPassword } from '../src/utils/hashing';
-import coachFixture from './utils/fixtures/coachFixture';
-import { JwtService } from '@nestjs/jwt';
-import authFixture from './utils/fixtures/authFixture';
 import resetDb from './utils/resetDb';
 import { Exercise } from '../src/typeOrm/entities/Exercise';
 import * as cookieParser from 'cookie-parser';
+import { CoachesFixtureModule } from './utils/fixtures/coach/coachesFixture.module';
+import { CoachesFixtureService } from './utils/fixtures/coach/coachesFixture.service';
+import { AuthFixtureService } from './utils/fixtures/auth/authFixture.service';
+import { AuthFixtureModule } from './utils/fixtures/auth/authFixture.module';
 
 describe('Coach Controller (e2e)', () => {
   let app: INestApplication;
-  let coachRepo: Repository<Coach>;
-  let jwtService: JwtService;
   let exerciseRepo: Repository<Exercise>;
+
+  let coachesFixtureService: CoachesFixtureService;
+  let authFixtureService: AuthFixtureService;
+
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, CoachesFixtureModule, AuthFixtureModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     app.use(cookieParser());
     await app.init();
 
-    coachRepo = moduleFixture.get('CoachRepository');
     exerciseRepo = moduleFixture.get('ExerciseRepository');
-    jwtService = moduleFixture.get(JwtService);
+    coachesFixtureService = moduleFixture.get(CoachesFixtureService);
+    authFixtureService = moduleFixture.get(AuthFixtureService);
   });
 
   beforeEach(async () => {
@@ -62,9 +63,7 @@ describe('Coach Controller (e2e)', () => {
     });
 
     it('should fail to create a user with a taken email', async () => {
-      await request(app.getHttpServer())
-        .post('/coaches/create')
-        .send(mockCreateCoachData);
+      await coachesFixtureService.createCoach(mockCreateCoachData);
 
       await request(app.getHttpServer())
         .post('/coaches/create')
@@ -104,11 +103,10 @@ describe('Coach Controller (e2e)', () => {
 
   describe('GET - coaches/me', () => {
     it('should return coach info', async () => {
-      const coach = await coachFixture.createCoach(
-        coachRepo,
+      const coach = await coachesFixtureService.createCoach(
         mockCreateCoachData,
       );
-      const { access_token } = await authFixture.login(jwtService, coach);
+      const { access_token } = authFixtureService.login(coach);
       const res = await request(app.getHttpServer())
         .get('/coaches/me')
         .set('Cookie', [`accessToken=${access_token}`]);
