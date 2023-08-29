@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UseGuards,
   UsePipes,
@@ -24,5 +25,21 @@ export class ExercisesController {
     @User() userPayload: UserPayload,
   ) {
     return { userPayload };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('list')
+  async listExercisesAndPreloads(@User() userPayload: UserPayload) {
+    const exercises = await this.exercisesService.listExercises(
+      userPayload.sub,
+    );
+    return exercises;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('list-modifiers')
+  async listModifiers() {
+    const modifiers = await this.exercisesService.listModifiers();
+    return modifiers;
   }
 }

@@ -111,10 +111,16 @@ export class ExercisesService {
     return await this.modifierRepository.find();
   }
 
-  async listExercises(coachId: number) {
+  async listExercisesAndPreloads(coachId: number) {
     return await this.exerciseRepository.find({
       where: { coachId },
       relations: { exercise_muscle_impact: { muscle: true }, blocks: true },
+    });
+  }
+
+  async listExercises(coachId: number) {
+    return await this.exerciseRepository.find({
+      where: { coachId },
     });
   }
 }

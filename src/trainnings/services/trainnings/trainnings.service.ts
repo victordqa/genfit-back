@@ -53,7 +53,7 @@ export class TrainningsService {
       history.trainnings,
     );
 
-    const exercises = await this.exercisesService.listExercises(
+    const exercises = await this.exercisesService.listExercisesAndPreloads(
       suggestTrainningParams.coachId,
     );
     const musclesRefs = (await this.exercisesService.listMuscleRefs()).map(
@@ -284,6 +284,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
           load: 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -337,6 +338,7 @@ export class TrainningsService {
           name: sel.name,
           reps: generateRandomInteger(30, 25),
           load: 0.8,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -370,6 +372,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
           load: 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -399,6 +402,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round(generateRandomInteger(40, 30)),
           load: highestImpact >= 4 ? 0.3 : 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -427,6 +431,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
           load: 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -460,6 +465,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
           load: 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -495,6 +501,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
           load: 0.5,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -545,6 +552,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round((generateRandomInteger(50, 35) / highestImpact) * 2),
           load: 0.3,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 
@@ -606,6 +614,7 @@ export class TrainningsService {
           name: sel.name,
           reps: Math.round((generateRandomInteger(60, 40) / highestImpact) * 2),
           load: 0.3,
+          timePerRepInS: sel.timePerRepInS,
         };
       });
 

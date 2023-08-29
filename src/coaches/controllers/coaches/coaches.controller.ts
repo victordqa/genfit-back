@@ -7,6 +7,8 @@ import {
   UsePipes,
   ValidationPipe,
   Req,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../../auth/utils/JwtAuthGuard';
 import { CoachesService } from '../../services/coaches/coaches.service';
@@ -14,6 +16,7 @@ import { UserPayload } from '../../../utils/types';
 import { CreateBoxDto } from '../../dtos/CreateBox.dto';
 import { CreateCoachDto } from '../../dtos/CreateCoach.dto';
 import { User } from './decorators/user.decorator';
+import { IsBoxOwnerGuard } from '../../../trainnings/guards/is-box-owner/is-box-owner.guard';
 
 @Controller('coaches')
 export class CoachesController {
@@ -45,6 +48,13 @@ export class CoachesController {
   async listBoxes(@User() userPayload: UserPayload) {
     const boxes = await this.coachesService.listCoachBoxes(userPayload.sub);
     return { boxes };
+  }
+
+  @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
+  @Get('box/:boxId')
+  async getBox(@Param('boxId', new ParseIntPipe()) boxId: number) {
+    const box = await this.coachesService.listCoachBoxes(boxId);
+    return { box };
   }
 
   @UseGuards(JwtAuthGuard)

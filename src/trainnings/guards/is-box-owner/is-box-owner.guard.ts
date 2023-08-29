@@ -8,8 +8,14 @@ export class IsBoxOwnerGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const coachId = request.user.sub;
-    const boxId = parseInt(request.query.boxId) || request.body.boxId;
+
+    const boxId =
+      parseInt(request.query.boxId) ||
+      request.body.boxId ||
+      parseInt(request.params.boxId);
+
     const boxes = await this.coachesService.listCoachBoxes(coachId);
+
     const boxesIds = boxes.map((b) => b.id);
 
     return boxesIds.includes(boxId);

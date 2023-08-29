@@ -105,6 +105,14 @@ export class CoachesService {
     return boxes;
   }
 
+  async findBoxById(boxId: number) {
+    const box = await this.boxRepository.findOne({
+      where: { id: boxId },
+      relations: { trainnings: true },
+    });
+    return box;
+  }
+
   async findCoachById(coachId: number) {
     const { password, ...rest } = await this.coachRepository.findOne({
       where: { id: coachId },
