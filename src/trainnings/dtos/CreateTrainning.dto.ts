@@ -26,7 +26,7 @@ class ExerciseDto {
   reps: number;
 
   @Min(0)
-  @Max(5)
+  @Max(1)
   @IsNumber()
   load: number;
 }

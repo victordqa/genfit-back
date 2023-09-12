@@ -1020,8 +1020,6 @@ export class TrainningsService {
   async createTrainning(createTrainningParams: CreateTrainningParams) {
     const { boxId, trainnings } = createTrainningParams;
 
-    console.log(trainnings);
-
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -1032,7 +1030,6 @@ export class TrainningsService {
           const savedTrainning = await queryRunner.manager.save(
             trainningInstance,
           );
-          console.log('trainning: ', savedTrainning);
           await Promise.all(
             Object.entries(trainning.trainningWithBlockIds).map(
               async ([_blockName, block]) => {
