@@ -23,7 +23,12 @@ export type UserPayload = {
 export type SuggestTrainningParams = {
   boxId: number;
   quantity: number;
-  coachId;
+  coachId: number;
+};
+
+export type CalcRecentTrainningLoadParams = {
+  boxId: number;
+  coachId: number;
 };
 
 export type TrainningExerciseData = {

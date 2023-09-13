@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   AccumulatedLoads,
+  CalcRecentTrainningLoadParams,
   CreateTrainningParams,
   ExerciseForCalc,
   IndexedBlocks,
@@ -31,7 +32,6 @@ import { Modifier } from '../../../typeOrm/entities/Modifier';
 
 @Injectable()
 export class TrainningsService {
-  // suggested = [] as TrainningForCalc[];
   constructor(
     @InjectRepository(Box) private boxRepository: Repository<Box>,
     @InjectRepository(Trainning)
@@ -94,6 +94,36 @@ export class TrainningsService {
       return { trainningWithBlockIds };
     });
     return { boxId: suggestTrainningParams.boxId, trainningsWithIds };
+  }
+
+  async calcRecentTrainningLoad({
+    boxId,
+    coachId,
+  }: CalcRecentTrainningLoadParams) {
+    const history = await this.getTrainningHistory(boxId);
+
+    const parsedHistory = this.dbTrainningToCalcTrainningParser(
+      history.trainnings,
+    );
+
+    const exercises = await this.exercisesService.listExercisesAndPreloads(
+      coachId,
+    );
+
+    const musclesRefs = (await this.exercisesService.listMuscleRefs()).map(
+      (ex) => ({ name: ex.name, loadRefPerTrainning: ex.ref_week_load }),
+    );
+
+    const parsedExercises = this.exerciseDbToExerciseForCalcParser(exercises);
+
+    const lastTrainnings = parsedHistory.slice(-2);
+    const totalReps = this.computeTotalReps(lastTrainnings, parsedExercises);
+
+    const { accumulatedTrainningLoads } = this.calculateTrainningLoad(
+      totalReps,
+      parsedExercises,
+    );
+    console.log(accumulatedTrainningLoads);
   }
 
   private generateTrainning(
@@ -1013,7 +1043,7 @@ export class TrainningsService {
         },
       },
     });
-    // console.dir(trainnings, { depth: null });
+    //console.dir(trainnings.trainnings, { depth: null });
     return trainnings;
   }
 

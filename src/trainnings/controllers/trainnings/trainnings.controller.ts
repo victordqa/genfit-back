@@ -16,6 +16,7 @@ import { SuggestTrainningDto } from '../../dtos/SuggestTrainning.dto';
 
 import { CreateTrainningDto } from '../../dtos/CreateTrainning.dto';
 import { IsBoxOwnerGuard } from '../../guards/is-box-owner/is-box-owner.guard';
+import { CalcRecentTrainningLoad } from '../../dtos/CalcRecentTrainningLoad.dto';
 
 @Controller('trainnings')
 export class TrainningsController {
@@ -41,6 +42,29 @@ export class TrainningsController {
     });
 
     return suggestion;
+  }
+
+  @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
+  @Get('calc-recent-load')
+  async calcRecentTrainningLoad(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    query: CalcRecentTrainningLoad,
+    @User() userPayload: UserPayload,
+  ) {
+    const recentLoad = await this.trainningsService.calcRecentTrainningLoad({
+      boxId: query.boxId,
+      coachId: userPayload.sub,
+    });
+
+    //also get recommended load
+
+    return recentLoad;
   }
 
   @UsePipes(ValidationPipe)
