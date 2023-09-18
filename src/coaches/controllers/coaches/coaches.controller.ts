@@ -53,7 +53,7 @@ export class CoachesController {
   @UseGuards(JwtAuthGuard, IsBoxOwnerGuard)
   @Get('box/:boxId')
   async getBox(@Param('boxId', new ParseIntPipe()) boxId: number) {
-    const box = await this.coachesService.listCoachBoxes(boxId);
+    const box = await this.coachesService.findBoxById(boxId);
     return { box };
   }
 

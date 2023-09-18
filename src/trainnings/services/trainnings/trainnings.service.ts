@@ -101,7 +101,6 @@ export class TrainningsService {
     coachId,
   }: CalcRecentTrainningLoadParams) {
     const history = await this.getTrainningHistory(boxId);
-
     const parsedHistory = this.dbTrainningToCalcTrainningParser(
       history.trainnings,
     );
@@ -115,15 +114,36 @@ export class TrainningsService {
     );
 
     const parsedExercises = this.exerciseDbToExerciseForCalcParser(exercises);
-
-    const lastTrainnings = parsedHistory.slice(-2);
+    const numberOfPastTrainnings = -2;
+    const lastTrainnings = parsedHistory.slice(numberOfPastTrainnings);
+    // console.dir(lastTrainnings, { depth: null });
     const totalReps = this.computeTotalReps(lastTrainnings, parsedExercises);
 
     const { accumulatedTrainningLoads } = this.calculateTrainningLoad(
       totalReps,
       parsedExercises,
     );
-    console.log(accumulatedTrainningLoads);
+
+    return this.parseRefsAndAccumulated(musclesRefs, accumulatedTrainningLoads);
+  }
+
+  private parseRefsAndAccumulated(
+    muscleRefs: {
+      name: string;
+      loadRefPerTrainning: number;
+    }[],
+    accumulatedTrainningLoads: { [key: string]: number } | {},
+  ) {
+    const parsed = muscleRefs.map((ref) => {
+      const accLoad = accumulatedTrainningLoads[ref.name];
+
+      return {
+        name: ref.name,
+        refWeekLoad: ref.loadRefPerTrainning,
+        accWeekLoad: accLoad ? accLoad : 0,
+      };
+    });
+    return parsed;
   }
 
   private generateTrainning(
@@ -152,12 +172,12 @@ export class TrainningsService {
       totalReps,
       parsedExercises,
     );
-
+    // console.dir(accumulatedTrainningLoads, { depth: null });
     const maxExParams = this.defineMaxExParams(
       accumulatedTrainningLoads,
       musclesRefs,
     );
-
+    // console.dir(maxExParams, { depth: null });
     const exercisesArray = convertExsObjToArray(parsedExercises);
     const parsedBlocks = blocks.map((b) => {
       const possibleMods = b.modifiers.map((m) => m.name);
@@ -920,7 +940,10 @@ export class TrainningsService {
     if (modifier === 'AMRAP') {
       //compute block total duration
       const roundDuration = block.exercises.reduce((acc, ex) => {
-        const [exCompleteInfo] = exercises.filter((dbEx) => ex.id === dbEx.id);
+        const [exCompleteInfo] = exercises.filter((dbEx) => {
+          return ex.id === dbEx.id;
+        });
+
         return (acc += exCompleteInfo.timePerRepInS * ex.reps);
       }, 0);
       const numberOfRounds = Math.round(
