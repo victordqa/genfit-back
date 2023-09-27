@@ -14,7 +14,7 @@ export const dataSourceOptionsFactory = (): DataSourceOptions => {
     database: process.env.DB,
     synchronize: false,
     dropSchema: false,
-    migrationsRun: false,
+    migrationsRun: true,
   };
 
   if (process.env.NODE_ENV === 'test') {
