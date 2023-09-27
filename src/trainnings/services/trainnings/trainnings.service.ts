@@ -119,6 +119,9 @@ export class TrainningsService {
     // console.dir(lastTrainnings, { depth: null });
     const totalReps = this.computeTotalReps(lastTrainnings, parsedExercises);
 
+    const totalRepsH = this.computeTotalReps(parsedHistory, parsedExercises);
+    const res = this.calculateTrainningLoad(totalRepsH, parsedExercises);
+
     const { accumulatedTrainningLoads } = this.calculateTrainningLoad(
       totalReps,
       parsedExercises,
