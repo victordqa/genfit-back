@@ -33,6 +33,7 @@ export class AuthController {
       ),
       sameSite: 'strict',
       httpOnly: true,
+      secure: true,
     });
 
     return res.send({
@@ -47,6 +48,7 @@ export class AuthController {
       expires: new Date(new Date().getTime() + 3 * 1000),
       sameSite: 'strict',
       httpOnly: true,
+      secure: true,
     });
 
     return res.send({
