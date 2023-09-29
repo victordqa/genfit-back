@@ -34,7 +34,6 @@ export class AuthController {
       sameSite: 'none',
       httpOnly: true,
       secure: true,
-      domain: '.vercel.app',
     });
 
     return res.send({
@@ -50,7 +49,6 @@ export class AuthController {
       sameSite: 'none',
       httpOnly: true,
       secure: true,
-      domain: '.vercel.app',
     });
 
     return res.send({
