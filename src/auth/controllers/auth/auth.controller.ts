@@ -31,7 +31,7 @@ export class AuthController {
       expires: new Date(
         new Date().getTime() + Number.parseInt(jwtExp.split('s')[0]) * 1000,
       ),
-      sameSite: 'strict',
+      sameSite: 'none',
       httpOnly: true,
       secure: true,
     });
@@ -46,7 +46,7 @@ export class AuthController {
   async logout(@Req() req: Request, @Res() res: Response) {
     res.cookie('accessToken', 'none', {
       expires: new Date(new Date().getTime() + 3 * 1000),
-      sameSite: 'strict',
+      sameSite: 'none',
       httpOnly: true,
       secure: true,
     });
