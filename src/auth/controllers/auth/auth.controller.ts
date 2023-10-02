@@ -26,7 +26,6 @@ export class AuthController {
     const coach = req.user as Coach;
     const jwt_obj = this.authService.login(coach);
     const jwtExp = this.configService.get<string>('JWT_EXPIRATION_IN_S');
-    console.log(process.env.NODE_ENV);
     res.cookie('accessToken', jwt_obj.access_token, {
       expires: new Date(
         new Date().getTime() + Number.parseInt(jwtExp.split('s')[0]) * 1000,
