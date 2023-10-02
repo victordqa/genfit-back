@@ -9,6 +9,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'https://localhost:3000',
       'https://genfit-front-mermf4p0y-victordqa.vercel.app',
+      'https://genfit-frony.onrender.com',
     ],
     credentials: true,
   });
