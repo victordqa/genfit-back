@@ -336,7 +336,7 @@ export class TrainningsService {
           id: sel.id,
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
-          load: 0.5,
+          load: block === 'Warm Up' ? 0.3 : 0.5,
           timePerRepInS: sel.timePerRepInS,
         };
       });
@@ -424,7 +424,7 @@ export class TrainningsService {
           id: sel.id,
           name: sel.name,
           reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
-          load: 0.5,
+          load: block === 'Warm Up' ? 0.3 : 0.5,
           timePerRepInS: sel.timePerRepInS,
         };
       });
@@ -483,7 +483,7 @@ export class TrainningsService {
           id: sel.id,
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
-          load: 0.5,
+          load: block === 'Warm Up' ? 0.3 : 0.5,
           timePerRepInS: sel.timePerRepInS,
         };
       });
@@ -517,7 +517,7 @@ export class TrainningsService {
           id: sel.id,
           name: sel.name,
           reps: Math.round(maxDurationPerBlock / sel.timePerRepInS),
-          load: 0.5,
+          load: block === 'Warm Up' ? 0.3 : 0.5,
           timePerRepInS: sel.timePerRepInS,
         };
       });
@@ -553,7 +553,7 @@ export class TrainningsService {
           id: sel.id,
           name: sel.name,
           reps: Math.round((generateRandomInteger(30, 25) / highestImpact) * 2),
-          load: 0.5,
+          load: block === 'Warm Up' ? 0.3 : 0.5,
           timePerRepInS: sel.timePerRepInS,
         };
       });
