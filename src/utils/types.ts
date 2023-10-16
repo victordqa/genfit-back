@@ -102,3 +102,9 @@ export type CreateTrainningParams = {
   boxId: number;
   trainnings: SingleTrainningDetails[];
 };
+
+export type SearchExerciseParams = {
+  search?: string;
+  take: number;
+  skip: number;
+};

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -12,6 +13,7 @@ import { User } from '../../../coaches/controllers/coaches/decorators/user.decor
 import { UserPayload } from '../../../utils/types';
 import { CreateExerciseDto } from '../../dtos/CreateExercise.dto';
 import { ExercisesService } from '../../services/exercises/exercises.service';
+import { SearchExerciseDto } from '../../dtos/SearchExercise.dto';
 
 @Controller('exercises')
 export class ExercisesController {
@@ -31,6 +33,26 @@ export class ExercisesController {
   @Get('list')
   async listExercisesAndPreloads(@User() userPayload: UserPayload) {
     const exercises = await this.exercisesService.listExercises(
+      userPayload.sub,
+    );
+    return exercises;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('list-filtered')
+  async listFilteredExercisesAndPreloads(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    query: SearchExerciseDto,
+    @User() userPayload: UserPayload,
+  ) {
+    const exercises = await this.exercisesService.listExercisesFiltered(
+      query,
       userPayload.sub,
     );
     return exercises;

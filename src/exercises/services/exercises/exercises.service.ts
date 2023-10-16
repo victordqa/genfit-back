@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Coach } from '../../../typeOrm/entities/Coach';
 import { Exercise } from '../../../typeOrm/entities/Exercise';
 import { ExerciseMuscleImpact } from '../../../typeOrm/entities/ExerciseMuscleImpact';
@@ -8,6 +8,7 @@ import { Muscle } from '../../../typeOrm/entities/Muscle';
 import { ExerciseSeed, exercisesSeed } from '../../../typeOrm/seeds/exercises';
 import { Block } from '../../../typeOrm/entities/Block';
 import { Modifier } from '../../../typeOrm/entities/Modifier';
+import { SearchExerciseParams } from '../../../utils/types';
 
 @Injectable()
 export class ExercisesService {
@@ -122,5 +123,26 @@ export class ExercisesService {
     return await this.exerciseRepository.find({
       where: { coachId },
     });
+  }
+
+  async listExercisesFiltered(
+    searchParams: SearchExerciseParams,
+    coachId: number,
+  ) {
+    const take = searchParams.take;
+    const skip = searchParams.skip;
+    const search = searchParams.search || '';
+
+    const [result, total] = await this.exerciseRepository.findAndCount({
+      where: { name: ILike('%' + search + '%'), coachId },
+      order: { name: 'DESC' },
+      take: take,
+      skip: skip,
+    });
+
+    return {
+      data: result,
+      count: total,
+    };
   }
 }
