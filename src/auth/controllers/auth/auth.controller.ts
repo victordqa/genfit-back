@@ -17,7 +17,7 @@ import { ConfigService } from '@nestjs/config';
 export class AuthController {
   constructor(
     @Inject('AUTH_SERVICE') private readonly authService: AuthService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   @UseGuards(LocalAuthGuard)

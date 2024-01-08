@@ -67,6 +67,9 @@ describe('Coach Controller (e2e)', () => {
     });
 
     it('should fail to create a user with a taken email', async () => {
+      //here we use a fixture to directly create a coach in the db to avoid using
+      //a service that is also under testing, thus reducing coupling between tests
+
       await coachesFixtureService.createCoach(mockCreateCoachData);
 
       await request(app.getHttpServer())
